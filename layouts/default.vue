@@ -13,14 +13,14 @@
                 <v-btn to="/login">Login</v-btn>
                 <v-btn>LogOut</v-btn>
             </v-app-bar>
-            <v-main app class="main">
+            <v-main app>
                 <v-container>
                         <NuxtPage/>
                 </v-container>
             </v-main>
             <v-footer app>
-                <p>Fiddle's Green, 2700 Shelter Island Dr, San Diego, CA, 92106 United States of America
-                619-222-2216 fidsgreencatering@gmail.com</p>
+                <span>Fiddle's Green, 2700 Shelter Island Dr, San Diego, CA, 92106 United States of America
+                619-222-2216 fidsgreencatering@gmail.com</span>
             </v-footer> 
         </v-app>
     </div>

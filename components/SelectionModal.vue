@@ -75,7 +75,7 @@ export default {
         }
         else{
           console.log('els')
-          str+="what"
+          str+="click for menu"
         }
       }
       else{

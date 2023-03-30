@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row>
+    <v-row no-gutters>
       <v-col
         v-for="item in items"
         :key="item._id"
@@ -12,8 +12,8 @@
         height="100%"
         tile
       >
-        <v-card-title>{{item.name}}</v-card-title>
-        <v-card-text class="text--primary">
+        <v-card-title id="item-name">{{item.name}}</v-card-title>
+        <v-card-text>
           <div>${{item.price/100}}</div>
           <div>{{item.description}}</div>
         </v-card-text>
@@ -29,3 +29,10 @@ const props = defineProps({
         }
 })
 </script>
+<style scoped>
+#item-name {
+  font-family:'Times New Roman', Times, serif;
+  -webkit-text-stroke: 1px darkgreen;
+  color: white;
+}
+</style>

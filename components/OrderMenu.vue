@@ -145,9 +145,8 @@ export default {
                     //make it an obj and populate
                     //suggested and ingr arrays
                     if(typeof option !== Array){    
-                        const section = this.sections.filter((section)=>{
-                            return section._id ===option;
-                        })
+                        const section = this.sections.filter((section)=>{section._id ===option;})
+                        console.log('section filtered', section)
                         section.forEach((sec)=>{
                             const sectionHolder = {
                                 choice: sec.choice ? sec.choice : 0,
@@ -186,7 +185,8 @@ export default {
                     } */
                     //find items that belong to this
                     //section and add them to ingr array
-                    const optionItems = this.items.filter((val)=>{ return val.section_id === option._id});
+                    const optionItems = this.items.filter((val) => val.section_id === option._id);
+                    console.log('optionItems',optionItems)
                     if(optionItems.length){
                         optionItems.forEach((item)=>{
                             const contains = (option.ingr.some(el=>el._id===item._id))
