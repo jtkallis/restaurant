@@ -39,7 +39,7 @@ import SelectionModal from './SelectionModal.vue'
       </v-card>
     </v-card-item>
     <v-card-actions>
-      <v-btn @click="submitOrder(selection,modalFlag)">Add to order</v-btn>
+      <v-btn @click="submitOrder(selection)">Add to order</v-btn>
       <v-btn @click="cancelSelection">Cancel Selection</v-btn>
     </v-card-actions>
   </v-card>
@@ -156,7 +156,7 @@ export default {
         }
         console.log('submit else emit',selectHolder)
         this.$emit("getSelection",selectHolder)
-        modalFlag=false; 
+        this.modalFlag=false; 
     },
     fromModal(sel){
       console.log('nested modal',sel)
