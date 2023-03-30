@@ -1,0 +1,106 @@
+<template>
+    <v-card>
+        <v-card-item>
+            <v-text-field
+                v-model="newItem.name"
+                label="new name"
+            />
+            <v-text-field
+                v-model="newItem.price"
+                label="new price"
+            />
+            <v-text-field
+                v-model="newItem.description"
+                label="new description (optional)"
+            />
+        </v-card-item>
+        <v-card-item>
+            Add Section: {{ newItem.section.name }} <br/>
+            <v-chip
+                v-for="(section,i) in sections"
+                :key="i"
+                @click="addSection(section)"
+            >
+                {{ section.name }}
+            </v-chip>
+        </v-card-item>
+        <v-card-item>
+            Add Options for Item: <br/>
+            <v-chip
+                v-for="(option,j) in newSection.options"
+                :key="j"
+            >
+
+                {{ section.name }}
+                <v-icon icon="mdi-close" @click="newSection.options.splice(j,1)"/>
+            </v-chip>
+            <br/><v-divider/>
+            <v-chip
+                v-for="(section,i) in sections"
+                :key="i"
+                @click="addOption(section)"
+            >
+                {{ section.name }}
+            </v-chip>
+        </v-card-item>
+        <v-card-actions>
+            <v-btn @click="submitItem()">submit</v-btn>
+        </v-card-actions>
+    </v-card>
+</template>
+<script setup>
+const props = defineProps({
+    sections: {
+        type: Array,
+        required: true
+    }
+})
+</script>
+<script>
+export default{
+    data(){
+        return{
+            newItem:{
+                _id: '',
+                name: '',
+                price: 0,
+                section_id: '',
+                description: '',
+                options: [],
+                section:{},
+            }
+        }
+    },
+    methods:{
+        addSection(section){
+            this.newItem.section_id=section._id;
+            this.newItem.section={
+                name: section.name ? section.name : '',
+                _id: section._id ? section._id : '',
+                choice: section.choice ? section.choice : 0,
+                suggested: section.suggested.length ? section.suggested:[],
+                ingr: section.ingr.length ? section.ingr : [],
+            }
+        },
+        addOption(section){
+            this.newItem.options.push(section)
+        },
+        async submitItem(){
+            const holder = {
+                name: this.newItem.name ? this.newItem.name : '',
+                price: this.newItem.price ? this.newItem.price : 0,
+                options: this.newItem.options.length ? this.newItem.options : [],
+                section_id: this.newItem.section_id ? this.newItem.section_id : '',
+                description: this.newItem.description ? this.newItem.description : '',
+            }
+            holder.price = Number(holder.price)
+            const res = await useFetch('/api/items', {
+                method: 'POST',
+                body: JSON.stringify(holder)
+            })   
+            console.log('new item', res)   
+            this.$router.push({path:'/editMenu/',})
+        },
+    }
+}
+</script>
