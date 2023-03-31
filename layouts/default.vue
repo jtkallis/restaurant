@@ -18,8 +18,8 @@
                 </v-container>
             </v-main>
             <v-footer id="footer" app>
-                Fiddle's Green, 2700 Shelter Island Dr, San Diego, CA, 92106 United States of America
-                619-222-2216 fidsgreencatering@gmail.com
+                <span>Fiddle's Green, 2700 Shelter Island Dr, San Diego, CA, 92106 United States of America
+                619-222-2216 fidsgreencatering@gmail.com</span>
             </v-footer> 
         </v-app>
 </template>
