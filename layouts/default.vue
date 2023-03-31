@@ -1,7 +1,6 @@
 <template>
-    <div>
-        <v-app class="overflow-auto">
-            <v-app-bar class="overflow-auto" app>
+        <v-app>
+            <v-app-bar app>
                 <v-btn to="/">Fid's</v-btn>
                 <v-btn to="/createOrder">Order</v-btn>
                 <v-btn to="/about">About</v-btn>
@@ -18,10 +17,15 @@
                         <NuxtPage/>
                 </v-container>
             </v-main>
-            <v-footer app>
-                <span>Fiddle's Green, 2700 Shelter Island Dr, San Diego, CA, 92106 United States of America
-                619-222-2216 fidsgreencatering@gmail.com</span>
+            <v-footer id="footer" app>
+                Fiddle's Green, 2700 Shelter Island Dr, San Diego, CA, 92106 United States of America
+                619-222-2216 fidsgreencatering@gmail.com
             </v-footer> 
         </v-app>
-    </div>
 </template>
+<style scoped>
+#footer {
+  overflow: auto;
+  font-size: 12px;
+}
+</style>

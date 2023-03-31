@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-list>
       <h1 id="restaurant-name">Fiddler's Green Restaurant</h1>
-  </div>
+  </v-list>
 </template>
 
 <style>

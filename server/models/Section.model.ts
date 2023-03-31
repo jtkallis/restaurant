@@ -12,13 +12,15 @@ const sectionSchema = new Schema({
     suggested: [
       {
         type: Schema.Types.Mixed,
-        required: false
+        required: false,
+        default:{}
       }
     ],
     ingr: [
       {
         type: Schema.Types.Mixed, //Item Objs
-        required: false
+        required: false,
+        default: {}
       }
     ]},{ timestamps: true });
 

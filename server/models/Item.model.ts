@@ -17,7 +17,8 @@ const itemSchema = new Schema({
     options: [ 
       {
         type: Schema.Types.Mixed,
-        required: false
+        required: false,
+        default:{}
       }
     ],
     description: {

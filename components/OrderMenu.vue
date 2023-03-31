@@ -135,6 +135,7 @@ export default {
          * <SelectionModal/>
          */
         fromItem(selection){
+            console.log(selection)
             if( !selection.options ){
                 selection.options=[];
             }
@@ -145,7 +146,7 @@ export default {
                     //make it an obj and populate
                     //suggested and ingr arrays
                     if(typeof option !== Array){    
-                        const section = this.sections.filter((section)=>{section._id ===option;})
+                        const section = this.sections.filter(section=>section._id===option);
                         console.log('section filtered', section)
                         section.forEach((sec)=>{
                             const sectionHolder = {
@@ -159,6 +160,7 @@ export default {
                                 //replace _id with section obj
                             selection.options.splice(i,1,sectionHolder);
                             option=sectionHolder;
+                            console.log(selection.options)
                         })
                         
                         
@@ -185,32 +187,28 @@ export default {
                     } */
                     //find items that belong to this
                     //section and add them to ingr array
-                    const optionItems = this.items.filter((val) => val.section_id === option._id);
+                    const optionItems = this.items.filter(item=>item.section_id === option._id);
                     console.log('optionItems',optionItems)
                     if(optionItems.length){
                         optionItems.forEach((item)=>{
-                            const contains = (option.ingr.some(el=>el._id===item._id))
+                            const contains = (option.ingr.some(ing=>ing._id===item._id))
                             console.log('i',contains)
                             if(!contains){
                                 const itemHolder = {
-                                    _id: item._id,
                                     name: item.name,
+                                    _id: item._id,
+                                    description: item.description,
                                     price: item.price ? item.price : 0,
-                                    section_id: item.section_id,
                                     options: item.options ? item.options : [],
                                 }
+                                console.log('iHolder', itemHolder)
                                 //add the item to the ingr array
                                 if(itemHolder.options.length){
                                     itemHolder.options.forEach(op=>{
                                         op.choices=[];
                                         if(op.suggested.length){
                                             op.suggested.forEach((sug)=>{
-                                                const sugHolder = {
-                                                    name: sug.name,
-                                                    _id: sug._id,
-                                                    price: sug.price ? sug.price : 0,
-                                                    section_id: sug.section_id,
-                                                }
+                                                const sugHolder = {...sug};
                                                 op.choices.push(sugHolder)
                                             })
                                         }
@@ -233,7 +231,6 @@ export default {
                 price: selection.price ? selection.price : 0,
                 section_id: selection.section_id,
                 section: selection.section ? selection.section : {},
-                _id: selection._id,
                 options: selection.options ? selection.options : [],
                 _key: this.makeId(),
             };

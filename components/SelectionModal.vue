@@ -164,19 +164,6 @@ export default {
       console.log(this.modalFlag) 
       //if item has options add the
       //cost of choices to price
-      if(sel.options){
-        if(sel.options.length){
-          sel.options.forEach(option=>{
-            if(option.choices){
-              if(option.choices.length){
-                option.choices.forEach(choice=>{
-                  sel.price+=choice.price;
-                })
-              }
-            }
-          })
-        } 
-      }
       const selHolder = {...sel}
       this.selection.options[selHolder.index].choices.push(selHolder);
       this.modalFlag=false;
