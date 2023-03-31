@@ -40,7 +40,7 @@ import SelectionModal from './SelectionModal.vue'
     </v-card-item>
     <v-card-actions>
       <v-btn @click="submitOrder(selection)">Add to order</v-btn>
-      <v-btn @click="cancelSelection">Cancel Selection</v-btn>
+      <v-btn @click="cancelSelection(selection)">Cancel Selection</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -168,8 +168,21 @@ export default {
       this.selection.options[selHolder.index].choices.push(selHolder);
       this.modalFlag=false;
     },
-    cancelSelection(){
+    cancelSelection(sel){
       console.log('cancel emit')
+      if(this.selection.options.length){
+        this.selection.options.forEach((option)=>{
+          if(option.choices.length){
+            option.choices=[];
+            if(option.suggested.length){
+              option.suggested.forEach((item)=>{
+                const suggest = {...item};
+                option.choices.push(suggest)
+              })
+            }
+          }
+        })
+      }
       this.$emit("getSelection")
     }
   }
