@@ -133,9 +133,6 @@ export default {
             })*********/
           // return menus[1]
         },
-        stringToObject(toObject){
-            return this.sections.find(section=>section._id===toObject);
-        },
         /**
          * receieves item data from <OrderItem/>
          * input: Item clicked Object
@@ -161,7 +158,7 @@ export default {
                         //make it an obj 
                         if(typeof selection.options[i] === "string"){ 
                             console.log('string')   
-                            selection.options[i] = stringToObject(selection.options[i]);
+                            selection.options[i] = this.sections.find(section=>section._id===selection.options[i]);
                             console.log('string to obj', selection)                        
                         }
                         const sectionHolder = {...selection.options[i], choices: []}
