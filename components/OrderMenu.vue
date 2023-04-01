@@ -192,15 +192,16 @@ export default {
                                             section_id: item.section_id,
                                             options: item.options ? item.options : [],
                                         }
-                                        option.choices.push(itemHolder)
+                                        selection.options[i].choices.push(itemHolder)
                                     }
                                 }
                             })
                         }
                     }
+                    console.log('xcv', selection)
                     //find items that belong to this
                     //section and add them to ingr array
-                    const optionItems = this.items.filter(item=>item.section_id === option._id);
+              /*      const optionItems = this.items.filter(item=>item.section_id === option._id);
                     if(optionItems.length){
                         optionItems.forEach((item)=>{
                             if(item.ingr){
@@ -231,7 +232,7 @@ export default {
                             
                             
                         });
-                    }
+                    }*/
                                                  
                    
                 })
