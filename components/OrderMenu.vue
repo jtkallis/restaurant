@@ -133,6 +133,9 @@ export default {
             })*********/
           // return menus[1]
         },
+        stringToObject(toObject){
+            return this.sections.find(section=>section._id===toObject);
+        },
         /**
          * receieves item data from <OrderItem/>
          * input: Item clicked Object
@@ -158,15 +161,10 @@ export default {
                         //make it an obj 
                         if(typeof selection.options[i] === "string"){ 
                             console.log('string')   
-                            const section = this.sections.find(section=>section._id===selection.options[i]);
-                            const sectionHolder = {...section, choices: []}
-                            selectionHolder.options.push(sectionHolder)
-                            
+                            selection.options[i] = stringToObject(selection.options[i]);
+                            console.log('string to obj', selection)                        
                         }
-                        else{
-                            console.log('not string')
-                            const sectionHolder = {...option, choices: []}
-                        }
+                        const sectionHolder = {...selection.options[i], choices: []}
                         //if option has suggested
                         //add them to empty choices array
                         if(sectionHolder.suggested.length){
@@ -186,7 +184,8 @@ export default {
                     }
                 }
             }
-            console.log('before end of fromItem',selection)
+            console.log('before end of fromItem',selectionHolder)
+            console.log(this.selection)
             //create selection to pass to modal
             //this is the item selected from the menu
             this.selection = {
