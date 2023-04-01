@@ -155,14 +155,14 @@ export default {
                     if(typeof option === "string"){    
                         console.log('b',option)
                         const section = this.sections.find(section=>section._id===option);
-                        const sectionHolder = {
+                        let sectionHolder = {
                             choice: section.choice ? section.choice : 0,
                             ingr: section.ingr ? section.ingr : [],
                             name: section.name,
                             suggested: section.suggested ? section.suggested : [],
                             _id: section._id,
-                            choices: [],
                         }
+                        sectionHolder.choices=[];
                         //console.log(selection.options[i])
                         selection.options.splice(i,1,sectionHolder)
                         //option=sectionHolder;
@@ -172,9 +172,9 @@ export default {
                         
                     }
                     else{
-                        console.log('a')
-                        option={...option, choices: []}
-                        console.log('optionA')
+                        console.log('a',option)
+                        option.choices = [];
+                        console.log('optionA',option)
                     }
                     console.log('between',option)
                     //add suggested items to choices array
