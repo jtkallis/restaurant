@@ -247,7 +247,7 @@ export default {
                 options: selection.options ? selection.options : [],
                 _key: this.makeId(),
             };
-            console.log(this.selection)
+            console.log('end from Item',this.selection)
             //open modal
             this.modalFlag=true;
             
