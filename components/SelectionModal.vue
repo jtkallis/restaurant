@@ -161,7 +161,19 @@ export default {
         const selectHolder={
           ...selection,
         }
+        if(selection.options){
+        if(selection.options.legnth){
+          selection.options.forEach((option)=>{
+            if(option.choices){
+              if(option.choices.length){
+                option.choices=[];
+              }
+            }
+          })
+        }
+      }
         console.log('submit else emit',selectHolder)
+        console.log('original',selection)
         this.$emit("getSelection",selectHolder)
         this.modalFlag=false; 
     },
