@@ -245,7 +245,7 @@ export default {
                     }*/
                                                  
                    
-                })
+                }
             }
             console.log('before end of fromItem',selection)
             //create selection to pass to modal
