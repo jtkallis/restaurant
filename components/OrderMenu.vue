@@ -181,10 +181,13 @@ export default {
                     if(option.suggested){   
                         if(option.suggested.length){
                             option.suggested.forEach((item)=>{
-                                if(item.choices){
-                                    const contains = item.choices.some(el=>el._id===item._id);
+                                if(option.choices){
+                                    //if the options has choices
+                                    // check if the items already there
+                                    const contains = option.choices.some(el=>el._id===item._id);
                                     console.log('s',contains)
                                     if(!contains){
+                                        //if not. then add it
                                         const itemHolder = {
                                             _id: item._id,
                                             name: item.name,
@@ -192,7 +195,7 @@ export default {
                                             section_id: item.section_id,
                                             options: item.options ? item.options : [],
                                         }
-                                        selection.options[i].choices.push(itemHolder)
+                                        option.choices.push(itemHolder)
                                     }
                                 }
                             })
