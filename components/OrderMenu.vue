@@ -165,6 +165,7 @@ export default {
                         sectionHolder.choices=[];
                         //console.log(selection.options[i])
                         selection.options.splice(i,1,sectionHolder)
+                       // option=sectionHolder;
                         //option=sectionHolder;
                         console.log('optionB',selection.options[i])
                         //replace _id with section obj
@@ -177,16 +178,17 @@ export default {
                         console.log('optionA',option)
                     }
                     console.log('between',option)
+                    console.log('and',selection)
                     //add suggested items to choices array
                     //should ne in selection modal
-                    if(option.suggested){   
-                        if(option.suggested.length){
-                            option.suggested.forEach((item)=>{
-                                if(option.choices){
-                                    //if the options has choices
+                    if(selection.options[i].suggested){   
+                        if(selection.options[i].suggested.length){
+                            selection.options[i].suggested.forEach((item)=>{
+                                if(selection.options[i].choices){
+                                    //if the options has choices (should be empty)
                                     // check if the items already there
-                                    const contains = option.choices.some(el=>el._id===item._id);
-                                    console.log('s',contains)
+                                    const contains = selection.options[i].choices.some(el=>el._id===item._id);
+                                    console.log('contains',contains)
                                     if(!contains){
                                         //if not. then add it
                                         const itemHolder = {
@@ -196,7 +198,7 @@ export default {
                                             section_id: item.section_id,
                                             options: item.options ? item.options : [],
                                         }
-                                        option.choices.push(itemHolder)
+                                        selection.options[i].choices.push(itemHolder)
                                     }
                                 }
                                 else{
@@ -244,6 +246,7 @@ export default {
                    
                 })
             }
+            console.log('before end of fromItem',selection)
             //create selection to pass to modal
             //this is the item selected from the menu
             this.selection = {
