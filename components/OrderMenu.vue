@@ -101,6 +101,12 @@ export default {
             return result;
         },
             todaysMenu: (menus) => {
+                menus.forEach((menu)=>{
+                    if(menu.name==="Dinner"){
+                        return menu
+                    }
+                })
+                return menu[0];
          /**    const date = new Date()
             const today = date.getDay()
             const nowHours = date.getHours()
@@ -125,7 +131,7 @@ export default {
                     else {return {name:"closed"}}
                 }
             })*********/
-           return menus[0]
+          // return menus[1]
         },
         /**
          * receieves item data from <OrderItem/>
