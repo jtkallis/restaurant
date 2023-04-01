@@ -106,7 +106,7 @@ export default {
         if(ingr.options.length){
           ingr.options.forEach((option)=>{
             //initialize choices array
-            const sectionHolder = {...option}
+            const sectionHolder = {...option, choices: []}
             
             if(sectionHolder.suggested.length){
               console.log('d')
