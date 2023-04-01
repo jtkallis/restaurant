@@ -147,14 +147,15 @@ export default {
             }
             
             if( selection.options.length ){
-                selection.options.forEach((option,i)=>{
+                let i;
+                for(i=0;i<selection.options.length;i++){
                     //if option is not an obj
                     //make it an obj and populate
                     //suggested and ingr arrays
-                    console.log(typeof option)
-                    if(typeof option === "string"){    
-                        console.log('b',option)
-                        const section = this.sections.find(section=>section._id===option);
+                    console.log(typeof selection.options[i])
+                    if(typeof selection.options[i] === "string"){    
+                        console.log('b',selection.options[i])
+                        const section = this.sections.find(section=>section._id===selection.options[i]);
                         let sectionHolder = {
                             choice: section.choice ? section.choice : 0,
                             ingr: section.ingr ? section.ingr : [],
@@ -173,11 +174,11 @@ export default {
                         
                     }
                     else{
-                        console.log('a',option)
-                        option.choices = [];
-                        console.log('optionA',option)
+                        console.log('a',selection.options[i])
+                        selection.options[i].choices = [];
+                        console.log('optionA',selection.options[i])
                     }
-                    console.log('between',option)
+                    console.log('between',selection.options[i])
                     console.log('and',selection)
                     //add suggested items to choices array
                     //should ne in selection modal
