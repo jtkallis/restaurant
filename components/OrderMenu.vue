@@ -142,121 +142,60 @@ export default {
          */
         fromItem(selection){
             console.log('fromItem',selection)
-            if( !selection.options ){
-                selection.options=[];
+            let selectionHolder={
+                name: selection.name,
+                price: selection.price,
+                section_id: selection.section_id,
+                options: [],
+                _key: this.makeId(),
             }
             
-            if( selection.options.length ){
-                let i;
-                for(i=0;i<selection.options.length;i++){
-                    //if option is not an obj
-                    //make it an obj and populate
-                    //suggested and ingr arrays
-                    console.log(typeof selection.options[i])
-                    if(typeof selection.options[i] === "string"){    
-                        console.log('b',selection.options[i])
-                        const section = this.sections.find(section=>section._id===selection.options[i]);
-                        let sectionHolder = {
-                            choice: section.choice ? section.choice : 0,
-                            ingr: section.ingr ? section.ingr : [],
-                            name: section.name,
-                            suggested: section.suggested ? section.suggested : [],
-                            _id: section._id,
+            if( selection.options ){
+                if(selection.options.length){
+                    let i;
+                    for(i=0;i<selection.options.length;i++){
+                        //if option is not an obj
+                        //make it an obj 
+                        if(typeof selection.options[i] === "string"){ 
+                            console.log('string')   
+                            const section = this.sections.find(section=>section._id===selection.options[i]);
+                            const sectionHolder = {...section, choices: []}
+                            selectionHolder.options.push(sectionHolder)
+                            
                         }
-                        sectionHolder.choices=[];
-                        //console.log(selection.options[i])
-                        selection.options.splice(i,1,sectionHolder)
-                       // option=sectionHolder;
-                        //option=sectionHolder;
-                        console.log('optionB',selection.options[i])
-                        //replace _id with section obj
-                        console.log(selection)
-                        
-                    }
-                    else{
-                        console.log('a',selection.options[i])
-                        selection.options[i].choices = [];
-                        console.log('optionA',selection.options[i])
-                    }
-                    console.log('between',selection.options[i])
-                    console.log('and',selection)
-                    //add suggested items to choices array
-                    //should ne in selection modal
-                    if(selection.options[i].suggested){   
-                        if(selection.options[i].suggested.length){
-                            selection.options[i].suggested.forEach((item)=>{
-                                if(selection.options[i].choices){
-                                    //if the options has choices (should be empty)
-                                    // check if the items already there
-                                    const contains = selection.options[i].choices.some(el=>el._id===item._id);
-                                    console.log('contains',contains)
-                                    if(!contains){
-                                        //if not. then add it
-                                        const itemHolder = {
-                                            _id: item._id,
-                                            name: item.name,
-                                            price: item.price ? item.price : 0,
-                                            section_id: item.section_id,
-                                            options: item.options ? item.options : [],
-                                        }
-                                        selection.options[i].choices.push(itemHolder)
-                                    }
+                        else{
+                            console.log('not string')
+                            const sectionHolder = {...option, choices: []}
+                        }
+                        //if option has suggested
+                        //add them to empty choices array
+                        if(sectionHolder.suggested.length){
+                            console.log('d')
+                            sectionHolder.suggested.forEach((item)=>{
+                                //add suggested items
+                                const itemHolder = {
+                                    ...item,
+                                    _key: item._key ? item._key : this.makeId(),
                                 }
-                                else{
-                                    console.log('ERROR -- no choices array present')
-                                }
+                                sectionHolder.choices.push(itemHolder)
+                                console.log(sectionHolder)
                             })
                         }
+                        //finally add to selection         
+                        selectionHolder.options.push(sectionHolder);
                     }
-                    console.log('after suggested', selection)
-                    //find items that belong to this
-                    //section and add them to ingr array
-              /*      const optionItems = this.items.filter(item=>item.section_id === option._id);
-                    if(optionItems.length){
-                        optionItems.forEach((item)=>{
-                            if(item.ingr){
-                                const contains = (item.ingr.some(ing=>ing._id===item._id))
-                                if(!contains){
-                                    const itemHolder = {
-                                        name: item.name,
-                                        _id: item._id,
-                                        description: item.description,
-                                        price: item.price ? item.price : 0,
-                                        options: item.options ? item.options : [],
-                                    }
-                                    //add the item to the ingr array
-                                    if(itemHolder.options.length){
-                                        itemHolder.options.forEach(op=>{
-                                            op.choices=[];
-                                            if(op.suggested.length){
-                                                op.suggested.forEach((sug)=>{
-                                                    const sugHolder = {...sug};
-                                                    op.choices.push(sugHolder)
-                                                })
-                                            }
-                                        })
-                                    }
-                                    option.ingr.push(itemHolder);
-                                }
-                            }
-                            
-                            
-                        });
-                    }*/
-                                                 
-                   
                 }
             }
             console.log('before end of fromItem',selection)
             //create selection to pass to modal
             //this is the item selected from the menu
             this.selection = {
-                name: selection.name,  
-                description: selection.description ? selection.description : "",
-                price: selection.price ? selection.price : 0,
-                section_id: selection.section_id,
-                section: selection.section ? selection.section : {},
-                options: selection.options ? selection.options : [],
+                name: selectionHolder.name,  
+                description: selectionHolder.description ? selectionHolder.description : "",
+                price: selectionHolder.price ? selectionHolder.price : 0,
+                section_id: selectionHolder.section_id,
+                section: selectionHolder.section ? selectionHolder.section : {},
+                options: selectionHolder.options ? selectionHolder.options : [],
                 _key: this.makeId(),
             };
             console.log('end from Item',this.selection)
