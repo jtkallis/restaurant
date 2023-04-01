@@ -153,9 +153,8 @@ export default {
         }
         return result;
     },
-    submitOrder(selection, modalFlag){
+    submitOrder(selection){
       console.log('submit',selection)
-      console.log('no this mf', modalFlag)
       console.log(this.selection)
       console.log('this mf',this.modalFlag)
         const selectHolder={
