@@ -135,7 +135,7 @@ export default {
          * <SelectionModal/>
          */
         fromItem(selection){
-            console.log(selection)
+            console.log('fromItem',selection)
             if( !selection.options ){
                 selection.options=[];
             }
@@ -145,77 +145,84 @@ export default {
                     //if option is not an obj
                     //make it an obj and populate
                     //suggested and ingr arrays
-                    if(typeof option !== Array){    
-                        const section = this.sections.filter(section=>section._id===option);
-                        console.log('section filtered', section)
-                        section.forEach((sec)=>{
-                            const sectionHolder = {
-                                choice: sec.choice ? sec.choice : 0,
-                                ingr: sec.ingr ? sec.ingr : [],
-                                name: sec.name,
-                                suggested: sec.suggested ? sec.suggested : [],
-                                _id: sec._id,
-                                choices: [],
-                            }
-                                //replace _id with section obj
-                            selection.options.splice(i,1,sectionHolder);
-                            option=sectionHolder;
-                            console.log(selection.options)
-                        })
+                    console.log(typeof option)
+                    if(typeof option === "string"){    
+                        console.log('b',option)
+                        const section = this.sections.find(section=>section._id===option);
+                        const sectionHolder = {
+                            choice: section.choice ? section.choice : 0,
+                            ingr: section.ingr ? section.ingr : [],
+                            name: section.name,
+                            suggested: section.suggested ? section.suggested : [],
+                            _id: section._id,
+                            choices: [],
+                        }
+                        //console.log(selection.options[i])
+                        selection.options.splice(i,1,sectionHolder)
+                        //option=sectionHolder;
+                        console.log('optionB',selection.options[i])
+                        //replace _id with section obj
+                        console.log(selection)
                         
-                        
+                    }
+                    else{
+                        console.log('a')
+                        option={...option, choices: []}
+                        console.log('optionA')
                     }
                     //add suggested items to choices array
                     //should ne in selection modal
-          /*          if(option.suggested){   
+                    if(option.suggested){   
                         if(option.suggested.length){
                             option.suggested.forEach((item)=>{
-                                const contains = option.choices.some(el=>el._id===item._id);
-                                console.log('s',contains)
-                                if(!contains){
-                                    const itemHolder = {
-                                        _id: item._id,
-                                        name: item.name,
-                                        price: item.price ? item.price : 0,
-                                        section_id: item.section_id,
-                                        options: item.options ? item.options : [],
+                                if(item.choices){
+                                    const contains = item.choices.some(el=>el._id===item._id);
+                                    console.log('s',contains)
+                                    if(!contains){
+                                        const itemHolder = {
+                                            _id: item._id,
+                                            name: item.name,
+                                            price: item.price ? item.price : 0,
+                                            section_id: item.section_id,
+                                            options: item.options ? item.options : [],
+                                        }
+                                        option.choices.push(itemHolder)
                                     }
-                                    option.choices.push(itemHolder)
                                 }
                             })
                         }
-                    } */
+                    }
                     //find items that belong to this
                     //section and add them to ingr array
                     const optionItems = this.items.filter(item=>item.section_id === option._id);
-                    console.log('optionItems',optionItems)
                     if(optionItems.length){
                         optionItems.forEach((item)=>{
-                            const contains = (option.ingr.some(ing=>ing._id===item._id))
-                            console.log('i',contains)
-                            if(!contains){
-                                const itemHolder = {
-                                    name: item.name,
-                                    _id: item._id,
-                                    description: item.description,
-                                    price: item.price ? item.price : 0,
-                                    options: item.options ? item.options : [],
+                            if(item.ingr){
+                                const contains = (item.ingr.some(ing=>ing._id===item._id))
+                                if(!contains){
+                                    const itemHolder = {
+                                        name: item.name,
+                                        _id: item._id,
+                                        description: item.description,
+                                        price: item.price ? item.price : 0,
+                                        options: item.options ? item.options : [],
+                                    }
+                                    //add the item to the ingr array
+                                    if(itemHolder.options.length){
+                                        itemHolder.options.forEach(op=>{
+                                            op.choices=[];
+                                            if(op.suggested.length){
+                                                op.suggested.forEach((sug)=>{
+                                                    const sugHolder = {...sug};
+                                                    op.choices.push(sugHolder)
+                                                })
+                                            }
+                                        })
+                                    }
+                                    option.ingr.push(itemHolder);
                                 }
-                                console.log('iHolder', itemHolder)
-                                //add the item to the ingr array
-                                if(itemHolder.options.length){
-                                    itemHolder.options.forEach(op=>{
-                                        op.choices=[];
-                                        if(op.suggested.length){
-                                            op.suggested.forEach((sug)=>{
-                                                const sugHolder = {...sug};
-                                                op.choices.push(sugHolder)
-                                            })
-                                        }
-                                    })
-                                }
-                                option.ingr.push(itemHolder);
                             }
+                            
                             
                         });
                     }
@@ -234,6 +241,7 @@ export default {
                 options: selection.options ? selection.options : [],
                 _key: this.makeId(),
             };
+            console.log(this.selection)
             //open modal
             this.modalFlag=true;
             

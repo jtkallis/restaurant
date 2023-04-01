@@ -17,8 +17,8 @@
                         <NuxtPage/>
                 </v-container>
             </v-main>
-            <v-footer id="footer" app>
-                <span>Fiddle's Green, 2700 Shelter Island Dr, San Diego, CA, 92106 United States of America
+            <v-footer app>
+                <span id="footer">Fiddle's Green, 2700 Shelter Island Dr, San Diego, CA, 92106 United States of America
                 619-222-2216 fidsgreencatering@gmail.com</span>
             </v-footer> 
         </v-app>

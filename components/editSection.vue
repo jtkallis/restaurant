@@ -3,12 +3,12 @@
         <v-row>
             <v-col>
                 <v-card-item>
-                    {{ getSection().name }}
+                    {{ newSection.name ? newSection.name : section.name }}
                     <v-text-field
                         v-model="newSection.name"
                         label="new name"
                     />
-                    Number of Choices: {{ section.choice }}
+                    Number of Choices: {{ newSection.choice ? newSection.choice : section.choice }}
                     <v-text-field
                         v-model="newSection.choice"
                         label="new number"
@@ -16,11 +16,14 @@
                 </v-card-item>
                 <v-card-item>
                     Original Default Items: 
-                    <v-chip
-                        v-for="(suggested,i) in section.suggested"
-                        :key="i"
-                    >{{ suggested.name }}</v-chip>
-                    <v-btn @click="addSuggestedFlag=!addSuggestedFlag"><v-icon icon="mdi-account-edit"/></v-btn>
+                    <v-btn @click="addSuggestedFlagFunc"><v-icon icon="mdi-account-edit"/></v-btn>
+                    <template v-if="section.suggested.length">
+                        <v-chip
+                            v-for="(suggested,i) in section.suggested"
+                            :key="i"
+                        >{{ suggested.name }}</v-chip>
+                        
+                    </template>
                 </v-card-item>
                 <v-card-item v-if="addSuggestedFlag">
                     New Default Items:
@@ -136,6 +139,30 @@ export default{
         }
     },
     methods: {
+        addSuggestedFlagFunc(){
+            if(this.section.suggested.length){
+                this.section.suggested.forEach((item)=>{
+                    let contains = this.newSection.suggested.some(el=>el._id===item._id);
+                    if(!contains){
+                        const itemHolder={...item};
+                        this.newSection.suggested.push(itemHolder);
+                    }
+                })
+            }
+            this.addSuggestedFlag=!this.addSuggestedFlag;
+        },
+        addIngrFlagFunc(){
+            if(this.section.ingr.length){
+                this.section.ingr.forEach((item)=>{
+                    let contains = this.newSection.ingr.some(el=>el._id===item._id);
+                    if(!contains){
+                        const itemHolder={...item};
+                        this.newSection.ingr.push(itemHolder);
+                    }
+                })
+            }
+            this.addIngrFlag=!this.addIngrFlag;
+        },
         async deleteSection(id){
             if(this.warningFlag===true){
                 const res = await useFetch('/api/sections/'+id, {

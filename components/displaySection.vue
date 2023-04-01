@@ -15,9 +15,9 @@
         </v-card-item>
         <v-card-item v-if="section.ingr.length">
             <v-chip
-                v-for="(suggested,i) in section.suggested"
+                v-for="(item,i) in section.ingr"
                 :key="i"
-            >{{ suggested.name }}</v-chip>
+            >{{ item.name }}</v-chip>
         </v-card-item>
     </v-card>
 </template>
@@ -53,7 +53,7 @@ export default {
         },
         editSection(){
 
-            this.$router.push({path: '/editMenu/sections/'+this.section._id,})
+            this.$router.push({path: '/editMenu/sections/'+ this.section._id})
         }
 
     }

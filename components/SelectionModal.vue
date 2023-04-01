@@ -17,11 +17,16 @@ import SelectionModal from './SelectionModal.vue'
           v-model="option.choices"
           :items="option.ingr"
           :label="getLabel(option)"
+          :menu="openFlag"
+          ref="select"
           multiple
+          :menu-props="{
+            closeOnContentClick: true,
+          }"
           class="overflow-auto"
         >
-          <template v-slot:selection="{ item, index }">
-            <v-chip>
+          <template #selection="{ item, index }">
+            <v-chip @click="$refs.select[i].blur()">
               {{ item.value.name }}
               <v-icon
                 icon="mdi-close"
@@ -29,7 +34,7 @@ import SelectionModal from './SelectionModal.vue'
               />
             </v-chip>
           </template>
-          <template v-slot:item="{item}">
+          <template #item="{item}">
             <v-list-item @click="addIngr(item.value,i)">{{ item.value.name }}</v-list-item>
           </template>
         </v-select>
@@ -63,18 +68,20 @@ export default {
       modalIndex:0,
       theItem: {},
       items: [],
+      openFlag: false,
     }
   },
   methods: {
+    callFunction(index){
+      this.$refs.select[index].blur()
+    },
     getLabel(option){
-      console.log(option);
       let str='';
       if(option){
-        if(option.choices.length){
+        if(option.choices && option.choice){
           str+="Choose: " + (option.choice - option.choices.length);
         }
         else{
-          console.log('els')
           str+="click for menu"
         }
       }
@@ -99,10 +106,7 @@ export default {
         if(ingr.options.length){
           ingr.options.forEach((option)=>{
             //initialize choices array
-            const sectionHolder = {
-              ...option,
-              choices: [],
-            }
+            const sectionHolder = {...option}
             
             if(sectionHolder.suggested.length){
               console.log('d')
@@ -119,15 +123,18 @@ export default {
             ingrHolder.options.push(sectionHolder)
           })
           console.log('mj',ingrHolder)
-          if(this.selection.options[i].choice>0){
+          if(this.selection.options[i].choice){
             if(this.selection.options[i].choice - this.selection.options[i].choices.length){
               this.theItem=ingrHolder;
               this.modalFlag=true;
             }
           }
         }else{
-          console.log('y')
+          console.log('y',this.selection.options[i])
           this.selection.price+=ingrHolder.price;
+          if(!this.selection.options[i].choices){
+            this.selection.options[i].choices=[]
+          }
           this.selection.options[i].choices.push(ingrHolder)
         }
       }else{
@@ -172,14 +179,12 @@ export default {
       console.log('cancel emit')
       if(this.selection.options.length){
         this.selection.options.forEach((option)=>{
-          if(option.choices.length){
-            option.choices=[];
-            if(option.suggested.length){
-              option.suggested.forEach((item)=>{
-                const suggest = {...item};
-                option.choices.push(suggest)
-              })
-            }
+          option.choices=[];
+          if(option.suggested.length){
+            option.suggested.forEach((item)=>{
+              const suggest = {...item};
+              option.choices.push(suggest)
+            })
           }
         })
       }

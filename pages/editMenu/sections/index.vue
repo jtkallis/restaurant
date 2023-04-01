@@ -101,11 +101,12 @@ export default {
                 choice: 0,
                 suggested: [],
                 ingr: []
-            },    
+            },
         }
     },
     methods: {
         async submitNewSection(){
+
             const holder = {
                 _id: this.newSection._id ? this.newSection._id : this.section_id,
                 name: this.newSection.name ? this.newSection.name : this.section.name,
@@ -128,12 +129,12 @@ export default {
             this.addSuggestedFlag=false;
         },
         addSuggested(suggested){
-            let x = this.newSection.suggested.filter((item)=>item._id===suggested._id);
-            if(!x.length){ this.newSection.suggested.push(suggested) }
+            let arrayHolder = this.newSection.suggested.filter((item)=>item._id===suggested._id);
+            if(!arrayHolder.length){ this.newSection.suggested.push(suggested) }
         },
         addIngr(ingr){
-            let x = this.newSection.ingr.filter((item)=>item._id===ingr._id);
-            if(!x.length){ this.newSection.ingr.push(ingr) }
+            let arrayHolder = this.newSection.ingr.filter((item)=>item._id===ingr._id);
+            if(!arrayHolder.length){ this.newSection.ingr.push(ingr) }
         }
     }
 }

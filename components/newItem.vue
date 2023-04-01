@@ -26,14 +26,16 @@
         </v-card-item>
         <v-card-item>
             Add Options for Item: <br/>
-            <v-chip
-                v-for="(option,j) in newSection.options"
-                :key="j"
-            >
+            <template v-if="newItem.options.length">
+                <v-chip
+                    v-for="(option,j) in newItem.options"
+                    :key="j"
+                >
 
-                {{ section.name }}
-                <v-icon icon="mdi-close" @click="newSection.options.splice(j,1)"/>
-            </v-chip>
+                    {{ option.name }}
+                    <v-icon icon="mdi-close" @click="newItem.options.splice(j,1)"/>
+                </v-chip>
+            </template>
             <br/><v-divider/>
             <v-chip
                 v-for="(section,i) in sections"
@@ -48,16 +50,14 @@
         </v-card-actions>
     </v-card>
 </template>
-<script setup>
-const props = defineProps({
-    sections: {
-        type: Array,
-        required: true
-    }
-})
-</script>
 <script>
 export default{
+    props:{
+        sections: {
+            type: Array,
+            required: true
+        }
+    },
     data(){
         return{
             newItem:{
@@ -83,7 +83,8 @@ export default{
             }
         },
         addOption(section){
-            this.newItem.options.push(section)
+            const sectionHolder={...section};
+            this.newItem.options.push(sectionHolder)
         },
         async submitItem(){
             const holder = {

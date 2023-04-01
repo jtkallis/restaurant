@@ -182,24 +182,28 @@ export default {
             this.sectionFlag=false;
         },
         async deleteItem(){
-            const res = await useFetch('/api/items/'+this.item._id, {
+            const res = await useFetch('/api/items/'+this.theItem._id, {
                 method: 'DELETE'
             });
             this.$router.push({path: '/editmenu/items'})
         },
         async submitChanges(){
+            console.log('put')
             const holder = {
+                _id: this.item._id,
                 name: this.newItem.name ? this.newItem.name : this.item.name,
                 price: this.newItem.price ? this.newItem.price : this.item.price,
                 section_id: this.newItem.section_id ? this.newItem.section_id : this.item.section_id,
                 options: this.newItem.options.length ? this.newItem.options : this.item.options,
                 description: this.newItem.description ? this.newItem.description : this.item.description
             }
+            console.log('submit change',holder)
             holder.price = Number(holder.price)
             const res = await useFetch('/api/items/'+this.item._id, {
                 method: 'PUT',
                 body: JSON.stringify(holder)
             });
+            console.log(res)
             this.$router.push({path:'/editMenu/items'})
         },
         optionsFlagFunc(){

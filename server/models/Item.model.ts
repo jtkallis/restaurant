@@ -11,7 +11,7 @@ const itemSchema = new Schema({
       default: 0
     },
     section_id: {
-        type: String,
+        type: Schema.Types.ObjectId,
         required: false
     },
     options: [ 
