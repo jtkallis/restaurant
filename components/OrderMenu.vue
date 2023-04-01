@@ -176,6 +176,7 @@ export default {
                         option={...option, choices: []}
                         console.log('optionA')
                     }
+                    console.log('between',option)
                     //add suggested items to choices array
                     //should ne in selection modal
                     if(option.suggested){   
@@ -198,10 +199,13 @@ export default {
                                         option.choices.push(itemHolder)
                                     }
                                 }
+                                else{
+                                    console.log('ERROR -- no choices array present')
+                                }
                             })
                         }
                     }
-                    console.log('xcv', selection)
+                    console.log('after suggested', selection)
                     //find items that belong to this
                     //section and add them to ingr array
               /*      const optionItems = this.items.filter(item=>item.section_id === option._id);
