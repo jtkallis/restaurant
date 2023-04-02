@@ -110,7 +110,6 @@ export default {
         style: 'currency',
         currency: 'USD',
       });
-      console.log(price)
       return formatter.format(price/100);
     },
     titleString(sel){

@@ -48,12 +48,14 @@
     },
     methods:{
         findDoubles(menus){
+            console.log(menus)
             let noDoubles = [];
             menus.forEach((menu)=>{
                 if(noDoubles.some((item)=>{item.name===menu.name})){
                     noDoubles.push(item);
                 }
             })
+            console.log('no dubs',noDoubles)
             return noDoubles;
         }
     }

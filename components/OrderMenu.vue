@@ -62,24 +62,22 @@
     </div>
   </div>
 </template>
-<script setup>
-const props = defineProps({
-    items:{
-        type: Array,
-        required: true
-    },
-    menus:{
-        type: Array,
-        required: true
-    },
-    sections:{
-        type: Array,
-        required: true
-    }
-});
-</script>
 <script>
 export default {
+    props:{
+        items:{
+            type: Array,
+            required: true
+        },
+        menus:{
+            type: Array,
+            required: true
+        },
+        sections:{
+            type: Array,
+            required: true
+        }
+    },
     data(){
         return{
             checkoutFlag: false,
@@ -90,6 +88,7 @@ export default {
     },
     methods:{
         todaysMenu(menus){
+            console.log('menus',menus)
             const date = new Date()
             const today = date.getDay()
             const nowHours = date.getHours()
@@ -98,7 +97,7 @@ export default {
             console.log(today)
             console.log(nowHours)
             console.log(nowMins)
-            console.log(menus)
+            
             menus.forEach( (menu) => {
                 if(menu.days.includes(today)){
                     const startHours = Math.floor(menu.starttime/100)
@@ -129,7 +128,6 @@ export default {
          * <SelectionModal/>
          */
         fromItem(selection){
-            console.log('fromItem',selection)
             //initialize object to disconnect
             //from original item
             let selectionHolder={
@@ -144,10 +142,8 @@ export default {
                     for(i=0;i<selection.options.length;i++){
                         //if option is not an obj
                         //make it an obj 
-                        if(typeof selection.options[i] === "string"){ 
-                            console.log('string')   
-                            selection.options[i] = this.sections.find(section=>section._id===selection.options[i]);
-                            console.log('string to obj', selection)                        
+                        if(typeof selection.options[i] === "string"){  
+                            selection.options[i] = this.sections.find(section=>section._id===selection.options[i]);                       
                         }
                         //initialize object to disconnect
                          //from original option and add choices[]
@@ -155,12 +151,10 @@ export default {
                         //if option has suggested
                         //add them to empty choices array
                         if(sectionHolder.suggested.length){
-                            console.log('d')
                             sectionHolder.suggested.forEach((item)=>{
                                 //add suggested items
                                 const itemHolder = {...item,}
                                 sectionHolder.choices.push(itemHolder)
-                                console.log(sectionHolder)
                             })
                         }
                         //finally add modified option object to selectionHolder.options[]       
@@ -168,8 +162,6 @@ export default {
                     }
                 }
             }
-            console.log('before end of fromItem',selectionHolder)
-            console.log(this.selection)
             //create selection to pass to modal
             //this is the item selected from the menu
             this.selection = {
@@ -180,7 +172,6 @@ export default {
                 section: selectionHolder.section ? selectionHolder.section : {},
                 options: selectionHolder.options ? selectionHolder.options : [],
             };
-            console.log('end from Item',this.selection)
             //open modal
             this.modalFlag=true;
             
@@ -194,7 +185,6 @@ export default {
          * opens checkout drawer
          */
         fromModal(sel){
-            console.log('in order menu from modal',sel)
             if(sel != null){               
                 this.selections.push(sel)
             }

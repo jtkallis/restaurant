@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div>{{ menus }}
         <OrderMenu
           :items="items"
           :menus="menus"
@@ -7,7 +7,6 @@
         />
   </div>
 </template>
-
 <script setup>
 const { data: sections } = await useFetch("/api/sections");
 const { data: menus } = await useFetch("/api/menus");

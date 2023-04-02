@@ -95,11 +95,10 @@ export default{
                 description: this.newItem.description ? this.newItem.description : '',
             }
             holder.price = Number(holder.price)
-            const res = await useFetch('/api/items', {
+            await useFetch('/api/items', {
                 method: 'POST',
                 body: JSON.stringify(holder)
-            })   
-            console.log('new item', res)   
+            })     
             this.$router.push({path:'/editMenu/',})
         },
     }
