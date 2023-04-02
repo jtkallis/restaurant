@@ -111,6 +111,8 @@ export default {
                     const endMins = menu.end_time % 100;
                     console.log('h ',startHours,' m ',startMins)
                     console.log(endHours,endMins)
+                    console.log(nowHours>=startHours)
+                    console.log(nowHours <=endHours)
                     //find out if the menu is open
                     if( (nowHours >= startHours) && (nowHours <= endHours) ){
                         if(startMins){
