@@ -101,7 +101,7 @@ export default {
 
             menus.forEach( (menu) => {
                 //if today is in the days array
-                console.log(menu.days);
+                console.log('menu',menu.days);
                 if(menu.days.some(day=>{day.index===today})){
                     const startHours = Math.floor(menu.start_time/100)
                     const startMins = menu.start_time % 100;
@@ -112,8 +112,14 @@ export default {
                             const endHours = Math.floor(menu.end_time/100)
                             const endMins = menu.end_time % 100;
                             if(nowHours < endHours){
-                                if(nowMins<endMins){
-                                    //if it is open then return the open menu
+                                if(menu.end_time){
+                                    if(nowMins<endMins){
+                                        //if it is open then return the open menu
+                                        return menu;
+                                    }
+                                    else{return {name: 'restaurant is closed'}}
+                                }
+                                else{
                                     return menu;
                                 }
                             }
