@@ -99,7 +99,6 @@ export default {
         price: ingr.price,
         section_id: ingr.section_id,
         options: [],
-        _key: this.makeId(),
       }
       if(ingr.options){
         ingrHolder={...ingrHolder, index: i};
@@ -112,10 +111,7 @@ export default {
               console.log('d')
               sectionHolder.suggested.forEach((item)=>{
                 //add suggested items
-                const itemHolder = {
-                    ...item,
-                    _key: item._key ? item._key : this.makeId(),
-                }
+                const itemHolder = {...item,}
                 sectionHolder.choices.push(itemHolder)
                 console.log(sectionHolder)
               })
@@ -142,16 +138,6 @@ export default {
         this.selection.price+=ingrHolder.price;
         this.selection.options[i].choices.push(ingrHolder)
       }      
-    },
-    makeId() {
-        let result = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let counter = 0;
-        while (counter < 12) {
-          result += characters.charAt(Math.floor(Math.random() * 12));
-          counter += 1;
-        }
-        return result;
     },
     submitOrder(selection){
       console.log('submit',selection)

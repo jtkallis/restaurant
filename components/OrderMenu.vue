@@ -89,17 +89,6 @@ export default {
         }
     },
     methods:{
-        makeId(length) {
-            let result = '';
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            const charactersLength = characters.length;
-            let counter = 0;
-            while (counter < length) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-            counter += 1;
-            }
-            return result;
-        },
         todaysMenu(menus){
             const date = new Date()
             const today = date.getDay()
@@ -136,14 +125,14 @@ export default {
          */
         fromItem(selection){
             console.log('fromItem',selection)
+            //initialize object to disconnect
+            //from original item
             let selectionHolder={
                 name: selection.name,
                 price: selection.price,
                 section_id: selection.section_id,
                 options: [],
-                _key: this.makeId(),
             }
-            
             if( selection.options ){
                 if(selection.options.length){
                     let i;
@@ -155,6 +144,8 @@ export default {
                             selection.options[i] = this.sections.find(section=>section._id===selection.options[i]);
                             console.log('string to obj', selection)                        
                         }
+                        //initialize object to disconnect
+                         //from original option and add choices[]
                         const sectionHolder = {...selection.options[i], choices: []}
                         //if option has suggested
                         //add them to empty choices array
@@ -162,15 +153,12 @@ export default {
                             console.log('d')
                             sectionHolder.suggested.forEach((item)=>{
                                 //add suggested items
-                                const itemHolder = {
-                                    ...item,
-                                    _key: item._key ? item._key : this.makeId(),
-                                }
+                                const itemHolder = {...item,}
                                 sectionHolder.choices.push(itemHolder)
                                 console.log(sectionHolder)
                             })
                         }
-                        //finally add to selection         
+                        //finally add modified option object to selectionHolder.options[]       
                         selectionHolder.options.push(sectionHolder);
                     }
                 }
@@ -186,7 +174,6 @@ export default {
                 section_id: selectionHolder.section_id,
                 section: selectionHolder.section ? selectionHolder.section : {},
                 options: selectionHolder.options ? selectionHolder.options : [],
-                _key: this.makeId(),
             };
             console.log('end from Item',this.selection)
             //open modal
