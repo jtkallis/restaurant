@@ -94,6 +94,11 @@ export default {
             const today = date.getDay()
             const nowHours = date.getHours()
             const nowMins = date.getMinutes()
+            console.log(date)
+            console.log(today)
+            console.log(nowHours)
+            console.log(nowMins)
+            console.log(menus)
             menus.forEach( (menu) => {
                 if(menu.days.includes(today)){
                     const startHours = Math.floor(menu.starttime/100)
