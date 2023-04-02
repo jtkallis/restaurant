@@ -8,10 +8,17 @@
             />
         </v-card-item>
         <v-card-item>
-            {{ menu.hours }}<br/>
+           start time: {{  newMenu.start_time ?  newMenu.start_time : menu.start_time }} <br/>
             <v-text-field
-                v-model=newMenu.hours
-                label="new hours"
+                v-model="newMenu.start_time"
+                label="new start time"
+            />
+        </v-card-item>
+        <v-card-item>
+            end time: {{ newMenu.end_time ? newMenu.end_time : menu.end_time }}<br/>
+            <v-text-field
+                v-model="newMenu.end_time"
+                label="new end time"
             />
         </v-card-item>
         <v-card-item>
@@ -98,7 +105,8 @@ export default {
             deleteFlag: false,
             newMenu: {
                 name: '',
-                hours: '',
+                start_time: 0,
+                end_time: 0,
                 sections: [],
                 days: [],
             },
