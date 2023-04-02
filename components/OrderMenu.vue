@@ -105,27 +105,34 @@ export default {
                 if(menu.days.some(day=>{day.index===today})){
                     const startHours = Math.floor(menu.start_time/100)
                     const startMins = menu.start_time % 100;
+                    const endHours = Math.floor(menu.end_time/100)
+                    const endMins = menu.end_time % 100;
                     console.log('h ',startHours,' m ',startMins)
+                    console.log(endHours,endMins)
                     //find out if the menu is open
-                    if(nowHours >= startHours){
-                        if(nowHours > startMins){
-                            const endHours = Math.floor(menu.end_time/100)
-                            const endMins = menu.end_time % 100;
-                            if(nowHours < endHours){
-                                if(menu.end_time){
+                    if(nowHours >= startHours && nowHours <= endHours){
+                        if(startMins){
+                            if(nowMins>startMins){
+                                if(endMins){
                                     if(nowMins<endMins){
-                                        //if it is open then return the open menu
                                         return menu;
-                                    }
-                                    else{return {name: 'restaurant is closed, ordering is unavailable at this time'}}
-                                }
-                                else{
+                                    }else{return {name: 'restaurant is closed, ordering is unavailable -- 4'}}
+                                }else{
                                     return menu;
                                 }
+                            }else{return {name: 'restaurant is closed, ordering is unavailable -- 3'}}
+                        }else{
+                            if(endMins){
+                                if(nowMins<endMins){
+                                    return menu;
+                                }
+                                else{return {name: 'restaurant is closed, ordering is unavailable -- 2'}}
                             }
-                            else{return {name: 'restaurant is closed, ordering is unavailable'}}
+                            else{
+                                return menu;
+                            }
                         }
-                    }
+                    }else{return {name: 'restaurant is closed, ordering is unavailable -- 1'}}
                 }
             })
             return;
