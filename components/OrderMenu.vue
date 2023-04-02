@@ -117,12 +117,13 @@ export default {
                                         //if it is open then return the open menu
                                         return menu;
                                     }
-                                    else{return {name: 'restaurant is closed'}}
+                                    else{return {name: 'restaurant is closed, ordering is unavailable at this time'}}
                                 }
                                 else{
                                     return menu;
                                 }
                             }
+                            else{return {name: 'restaurant is closed, ordering is unavailable'}}
                         }
                     }
                 }
