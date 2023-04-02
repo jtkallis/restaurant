@@ -6,14 +6,12 @@
                 v-for="menu in findDoubles(menus)"
                 :key=menu._id
             >
-                <template>
-                    {{menu.name}}
-                </template>
+                {{menu.name}}
             </v-tab>
         </v-tabs>
         <v-window v-model="tab">
             <v-window-item
-                v-for="menu in menus"
+                v-for="menu in findDoubles(menus)"
                 :key="menu._id"
             >
                 <Section
