@@ -49,7 +49,11 @@
     methods:{
         findDoubles(menus){
             let noDoubles=[];
-            noDoubles = menus.filter(menu=>{ noDoubles.some( item => item.name !== menu.name)});
+            menus.forEach(menu=>{
+                if(!noDoubles.some(item=>item.name===menu.name)){
+                    noDoubles.push(menu)
+                }
+            });
             return noDoubles;
         }
     }
