@@ -112,7 +112,7 @@ export default {
                     console.log('h ',startHours,' m ',startMins)
                     console.log(endHours,endMins)
                     //find out if the menu is open
-                    if(nowHours >= startHours && nowHours <= endHours){
+                    if( (nowHours >= startHours) && (nowHours <= endHours) ){
                         if(startMins){
                             if(nowMins>startMins){
                                 if(endMins){
@@ -135,7 +135,7 @@ export default {
                             }
                         }
                     }else{return {name: 'restaurant is closed, ordering is unavailable -- 1'}}
-                }
+                }else{return {name: 'restaurant is closed, ordering is unavailable'}}
             })
             return{name:'restaurant is closed'};
         },
