@@ -1,7 +1,8 @@
 <template>
     <v-card>
         <v-card-title>{{ menu.name }}</v-card-title>
-        <v-card-item>{{ menu.hours }}</v-card-item>
+        <v-card-item>{{ menu.start_time }}</v-card-item>
+        <v-card-item>{{ menu.end_time }}</v-card-item>
         <v-card-item>
             Days: <br/>
             <v-chip

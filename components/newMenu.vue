@@ -6,7 +6,11 @@
                 label="new name"
             />
             <v-text-field
-                v-model="newMenu.hours"
+                v-model="newMenu.start_hours"
+                label="new hours"
+            />
+            <v-text-field
+                v-model="newMenu.end_time"
                 label="new hours"
             />
         </v-card-item>
@@ -74,7 +78,8 @@ export default{
             newMenu:{
                 _id: '',
                 name: '',
-                hours: '',
+                start_time: '',
+                end_time: '',
                 days: [],
                 sections: []
             },

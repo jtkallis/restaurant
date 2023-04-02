@@ -6,8 +6,12 @@ const menuSchema = new Schema(
         type: String,
         required: [true, 'name field is required'],
       },
-      hours: {
-        type: String,
+      start_time: {
+        type: Number,
+        required: [true, 'start time field is required'],
+      },
+      end_time: {
+        type: Number,
         required: [true, 'start time field is required'],
       },
       days: [

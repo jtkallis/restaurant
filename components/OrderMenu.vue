@@ -100,14 +100,8 @@ export default {
             }
             return result;
         },
-            todaysMenu: (menus) => {
-                menus.forEach((menu)=>{
-                    if(menu.name==="Dinner"){
-                        return menu
-                    }
-                })
-                return menus[1];
-         /**    const date = new Date()
+        todaysMenu(menus){
+            const date = new Date()
             const today = date.getDay()
             const nowHours = date.getHours()
             const nowMins = date.getMinutes()
@@ -130,7 +124,7 @@ export default {
                     }
                     else {return {name:"closed"}}
                 }
-            })*********/
+            })
           // return menus[1]
         },
         /**
