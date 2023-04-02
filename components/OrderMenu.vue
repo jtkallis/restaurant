@@ -135,7 +135,7 @@ export default {
                     }else{return {name: 'restaurant is closed, ordering is unavailable -- 1'}}
                 }
             })
-            return;
+            return{name:'restaurant is closed'};
         },
         /**
          * receieves item data from <OrderItem/>
