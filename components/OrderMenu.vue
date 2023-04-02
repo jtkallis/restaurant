@@ -98,18 +98,25 @@ export default {
             console.log(nowHours)
             console.log(nowMins)
             
+
             menus.forEach( (menu) => {
-                if(menu.days.includes(today)){
-                    const startHours = Math.floor(menu.starttime/100)
+                if(menu.days.some(day=>{day.index===today})){
+                    const startHours = Math.floor(menu.start_time/100)
+                    const startMins = menu.start_time % 100;
+                    console.log('h ',startHours,' m ',startMins)
                     if(nowHours > startHours){
-                        const endHours = Math.floor(menu.endtime/100)
-                        if(nowHours < endHours){
-                         
-                            return menu
+                        if(nowHours > startMins){
+                            const endHours = Math.floor(menu.end_time/100)
+                            const endMins = menu.end_time % 100;
+                            if(nowHours < endHours){
+                                if(nowMins<endMins){
+                                    return menu;
+                                }
+                            }
                         }
                     }
                     else if ( nowHours === startHours){
-                        const startMins = menu.starttime % 100
+                        const startMins = menu.starttime % 100;
                         if( nowMins >= startMins){
                          
                             return menu

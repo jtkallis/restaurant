@@ -92,8 +92,6 @@ export default {
 
     },
     addIngr(ingr, i){
-      console.log('ingr',ingr)
-      console.log('indx',i)
       let ingrHolder={
         name: ingr.name,
         price: ingr.price,
@@ -108,17 +106,14 @@ export default {
             const sectionHolder = {...option, choices: []}
             
             if(sectionHolder.suggested.length){
-              console.log('d')
               sectionHolder.suggested.forEach((item)=>{
                 //add suggested items
                 const itemHolder = {...item,}
                 sectionHolder.choices.push(itemHolder)
-                console.log(sectionHolder)
               })
             }
             ingrHolder.options.push(sectionHolder)
           })
-          console.log('mj',ingrHolder)
           if(this.selection.options[i].choice){
             if(this.selection.options[i].choice - this.selection.options[i].choices.length){
               this.theItem=ingrHolder;
@@ -126,7 +121,6 @@ export default {
             }
           }
         }else{
-          console.log('y',this.selection.options[i])
           this.selection.price+=ingrHolder.price;
           if(!this.selection.options[i].choices){
             this.selection.options[i].choices=[]
@@ -134,15 +128,11 @@ export default {
           this.selection.options[i].choices.push(ingrHolder)
         }
       }else{
-        console.log('z')
         this.selection.price+=ingrHolder.price;
         this.selection.options[i].choices.push(ingrHolder)
       }      
     },
     submitOrder(selection){
-      console.log('submit',selection)
-      console.log(this.selection)
-      console.log('this mf',this.modalFlag)
         const selectHolder={
           ...selection,
         }
@@ -157,15 +147,10 @@ export default {
           })
         }
       }
-        console.log('submit else emit',selectHolder)
-        console.log('original',selection)
         this.$emit("getSelection",selectHolder)
         this.modalFlag=false; 
     },
-    fromModal(sel){
-      console.log('nested modal',sel)
-      console.log('cvb',this.selection)    
-      console.log(this.modalFlag) 
+    fromModal(sel){ 
       //if item has options add the
       //cost of choices to price
       const selHolder = {...sel}
@@ -173,7 +158,6 @@ export default {
       this.modalFlag=false;
     },
     cancelSelection(sel){
-      console.log('cancel emit')
       if(this.selection.options.length){
         this.selection.options.forEach((option)=>{
           option.choices=[];

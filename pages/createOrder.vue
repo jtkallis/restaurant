@@ -1,5 +1,5 @@
 <template>
-  <div>{{ menus }}
+  <div>
         <OrderMenu
           :items="items"
           :menus="menus"

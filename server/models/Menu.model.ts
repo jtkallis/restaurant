@@ -16,7 +16,7 @@ const menuSchema = new Schema(
       },
       days: [
         {
-          type: String,
+          type: Object,
           required: [true, 'days field is required'],
         }
       ],
