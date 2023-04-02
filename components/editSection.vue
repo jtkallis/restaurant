@@ -144,8 +144,8 @@ export default{
                 this.section.suggested.forEach((item)=>{
                     let contains = this.newSection.suggested.some(el=>el._id===item._id);
                     if(!contains){
-                        const itemHolder={...item};
-                        this.newSection.suggested.push(itemHolder);
+                        //const itemHolder={...item};
+                        this.newSection.suggested.push(item);
                     }
                 })
             }
@@ -157,7 +157,7 @@ export default{
                     let contains = this.newSection.ingr.some(el=>el._id===item._id);
                     if(!contains){
                         const itemHolder={...item};
-                        this.newSection.ingr.push(itemHolder);
+                       // this.newSection.ingr.push(item);
                     }
                 })
             }
