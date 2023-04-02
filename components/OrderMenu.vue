@@ -100,32 +100,27 @@ export default {
             
 
             menus.forEach( (menu) => {
+                //if today is in the days array
                 if(menu.days.some(day=>{day.index===today})){
                     const startHours = Math.floor(menu.start_time/100)
                     const startMins = menu.start_time % 100;
                     console.log('h ',startHours,' m ',startMins)
-                    if(nowHours > startHours){
+                    //find out if the menu is open
+                    if(nowHours >= startHours){
                         if(nowHours > startMins){
                             const endHours = Math.floor(menu.end_time/100)
                             const endMins = menu.end_time % 100;
                             if(nowHours < endHours){
                                 if(nowMins<endMins){
+                                    //if it is open then return the open menu
                                     return menu;
                                 }
                             }
                         }
                     }
-                    else if ( nowHours === startHours){
-                        const startMins = menu.starttime % 100;
-                        if( nowMins >= startMins){
-                         
-                            return menu
-                        }
-                    }
-                    else {return {name:"closed"}}
                 }
             })
-          // return menus[1]
+            return;
         },
         /**
          * receieves item data from <OrderItem/>
