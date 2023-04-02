@@ -1,16 +1,10 @@
 <template>
         <v-app>
             <v-app-bar app>
-                <v-btn to="/">Fid's</v-btn>
+                <v-btn to="/">Home</v-btn>
                 <v-btn to="/createOrder">Order</v-btn>
-                <v-btn to="/about">About</v-btn>
-                <v-btn to="/events">Book an Event</v-btn>
                 <v-btn to="/menu">Menu</v-btn>
-                <v-btn to="/reservations">Reservations</v-btn>
-                <v-btn to="/team">Our Team</v-btn>
                 <v-btn to="/editMenu">Edit Menu</v-btn>
-                <v-btn to="/login">Login</v-btn>
-                <v-btn>LogOut</v-btn>
             </v-app-bar>
             <v-main app>
                 <v-container>
@@ -18,8 +12,7 @@
                 </v-container>
             </v-main>
             <v-footer app>
-                <span id="footer">Fiddle's Green, 2700 Shelter Island Dr, San Diego, CA, 92106 United States of America
-                619-222-2216 fidsgreencatering@gmail.com</span>
+                <span id="footer">John Kallis website</span>
             </v-footer> 
         </v-app>
 </template>

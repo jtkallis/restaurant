@@ -1,9 +1,8 @@
 <template>
   <v-list>
-      <h1 id="restaurant-name">Fiddler's Green Restaurant</h1>
+      <h1 id="restaurant-name">Restaurant Home Page</h1>
   </v-list>
 </template>
-
 <style>
 #restaurant-name {
   font-family:'Times New Roman', Times, serif;
