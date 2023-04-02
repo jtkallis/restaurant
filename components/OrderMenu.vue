@@ -102,7 +102,8 @@ export default {
             menus.forEach( (menu) => {
                 //if today is in the days array
                 console.log('menu',menu.days);
-                if(menu.days.some(day=>{day.index===today})){
+                console.log(typeof today)
+                if(menu.days.some(day=>{day.index===Number(today)})){
                     const startHours = Math.floor(menu.start_time/100)
                     const startMins = menu.start_time % 100;
                     const endHours = Math.floor(menu.end_time/100)
