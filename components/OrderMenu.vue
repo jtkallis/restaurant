@@ -105,9 +105,9 @@ export default {
                 console.log(typeof today)
                 console.log(menu.days.some(day=>day.index===today))
                 if( menu.days.some(day=>day.index===today) ){
-                    const startHours = Math.floor(menu.start_time/100)
+                    const startHours = Math.floor(menu.start_time/100);
                     const startMins = menu.start_time % 100;
-                    const endHours = Math.floor(menu.end_time/100)
+                    const endHours = Math.floor(menu.end_time/100);
                     const endMins = menu.end_time % 100;
                     console.log('h ',startHours,' m ',startMins)
                     console.log(endHours,endMins)
@@ -139,7 +139,6 @@ export default {
                     }else{return {name: 'restaurant is closed, ordering is unavailable -- 1'}}
                 }else{return {name: 'restaurant is closed, ordering is unavailable'}}
             })
-            return{name:'restaurant is closed'};
         },
         /**
          * receieves item data from <OrderItem/>
