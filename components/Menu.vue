@@ -3,10 +3,12 @@
       <v-card>
           <v-tabs v-model="tab">
             <v-tab
-                v-for="menu in menus"
+                v-for="menu in findDoubles(menus)"
                 :key=menu._id
             >
-                {{menu.name}}
+                <template>
+                    {{menu.name}}
+                </template>
             </v-tab>
         </v-tabs>
         <v-window v-model="tab">
@@ -23,28 +25,36 @@
       </v-card>
   </v-container>
 </template>
-
-<script setup>
-const props = defineProps({
-    items:{
-        type: Array,
-        required: true
-    },
-    menus:{
-        type: Array,
-        required: true
-    },
-    sections:{
-        type: Array,
-        required: true
-    }
-});
-</script>
 <script>
  export default {
+    props:{
+        items:{
+            type: Array,
+            required: true
+        },
+        menus:{
+            type: Array,
+            required: true
+        },
+        sections:{
+            type: Array,
+            required: true
+        }
+    },
     data(){
         return {
             tab:null
+        }
+    },
+    methods:{
+        findDoubles(menus){
+            let noDoubles = [];
+            menus.forEach((menu)=>{
+                if(noDoubles.some((item)=>{item.name===menu.name})){
+                    noDoubles.push(item);
+                }
+            })
+            return noDoubles;
         }
     }
 }

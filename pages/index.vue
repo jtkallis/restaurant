@@ -37,7 +37,9 @@ export default {
           "options: ['temperatures','sides']",
           "}",
           "where sides contains an array of items that also have an options array value.",
-          "the second modal is nested in-case side items have options"
+          "the second modal is nested in-case side items have options",
+          "when submitted the /api/orders post route sends a text message",
+           "to my phone with the order and stores it in the database"
       ]
     }
   }
