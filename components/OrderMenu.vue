@@ -180,6 +180,7 @@ export default {
                             else{
                                 console.log('c')
                                 return menu;
+                                break;
                             }
                         }
                     }else{console.log('k');return {name: 'restaurant is closed, ordering is unavailable -- 1',id:1}}
