@@ -58,7 +58,44 @@
         </v-expansion-panels>
     </div>
     <div v-else>
-        <p>Sorry the restaurant is closed </p>
+        <v-dialog
+            v-model="modalFlag"
+            fullscreen
+            persistent
+        >
+            <v-card>
+                <v-toolbar>
+                    <template v-slot:append>
+                        <v-app-bar-nav-icon icon="mdi-close" @click="modalFlag=false"></v-app-bar-nav-icon>
+                    </template>
+                </v-toolbar>
+                <SelectionModal
+                    :selection="selection"
+                    @getSelection="fromModal"
+                /> 
+            </v-card>
+        </v-dialog>
+        <v-expansion-panels
+            id="top"
+            flat
+            tile
+        >
+            <v-expansion-panel
+                v-for="(section,i) in menus[1].sections"
+                id="ex-panel"
+                :key="i"
+                :title="section.name"
+            >
+                <v-expansion-panel-text>
+                    *************RESTAURANT IS CLOSED*********************8
+                   <OrderItem
+                        :theItems="items.filter(item=> item.section_id === section._id)"
+                        @passToMenu="fromItem"
+                        disabled
+                    />  
+                </v-expansion-panel-text>
+            </v-expansion-panel>
+        </v-expansion-panels>
     </div>
   </div>
 </template>
