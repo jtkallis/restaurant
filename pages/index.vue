@@ -26,7 +26,7 @@ export default {
     return{
       pages: [" /Menu page displays all of the menus",
       "/Order displays only the menu available at a given time. When an Item is selected a modal opens with a menu. after submit a text is sent to my cell phone with the order",
-      " /editMenu allows for edits to the menu"],
+      " /editMenu allows for edits to the menu. when edit is made menu is searched for all occurances of the item "],
       item_lines: [
         "Menu Items are of this structure",
         "{",

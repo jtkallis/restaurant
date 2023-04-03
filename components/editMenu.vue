@@ -25,7 +25,7 @@
             Days:  <v-icon icon="mdi-account-edit" @click="editDays()"/>
             <template v-if="newMenu.days.length">
                 <v-chip v-for="(day,i) in newMenu.days" :key="i">
-                    {{ day }} <v-icon icon="mdi-close" @click="newMenu.days.splice(i,1)"/>                
+                    {{ day.name }} <v-icon icon="mdi-close" @click="newMenu.days.splice(i,1)"/>                
                 </v-chip>
             </template>
             <template v-else-if="menu.days.length">
@@ -117,9 +117,8 @@ export default {
     },
     methods: {
         editDays(){
-            if(!newMenu.days.length){
+            if(!this.newMenu.days.length){
                 if(this.menu.days.length){
-
                     this.menu.days.forEach((day,i)=>{
                         this.newMenu.days.push(day)
                         this.menu.days.splice(i,1)
