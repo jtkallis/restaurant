@@ -57,7 +57,10 @@
             </v-expansion-panel>
         </v-expansion-panels>
     </div>
-    <div v-else>
+    <br/>
+    <br/>
+    <br/>
+    <div>
         <v-dialog
             v-model="modalFlag"
             fullscreen
@@ -75,26 +78,42 @@
                 /> 
             </v-card>
         </v-dialog>
-        <v-expansion-panels
-            id="top"
-            flat
-            tile
-        >   ************RESTAURANT IS CLOSED***this is for example purposes****************
-            <v-expansion-panel
-                v-for="(section,i) in menus[1].sections"
-                id="ex-panel"
-                :key="i"
-                :title="section.name"
+        <v-card>
+          <v-tabs v-model="tab">
+            <v-tab
+                v-for="menu in findDoubles(menus)"
+                :key=menu._id
             >
-                <v-expansion-panel-text>
-                    
-                   <OrderItem
-                        :theItems="items.filter(item=> item.section_id === section._id)"
-                        @passToMenu="fromItem"
-                    />  
-                </v-expansion-panel-text>
-            </v-expansion-panel>
-        </v-expansion-panels>
+                {{menu.name}}
+            </v-tab>
+        </v-tabs>
+        <v-window v-model="tab">
+            <v-window-item
+                v-for="menu in findDoubles(menus)"
+                :key="menu._id"
+            >
+                <v-expansion-panels
+                    id="top"
+                    flat
+                    tile
+                >
+                    <v-expansion-panel
+                        v-for="(section,i) in menu.sections"
+                        id="ex-panel"
+                        :key="i"
+                        :title="section.name"
+                    >
+                        <v-expansion-panel-text>
+                            <OrderItem
+                                :theItems="items.filter(item=> item.section_id === section._id)"
+                                @passToMenu="fromItem"
+                            />  
+                        </v-expansion-panel-text>
+                    </v-expansion-panel>
+                </v-expansion-panels>
+            </v-window-item>
+        </v-window>
+      </v-card>
     </div>
   </div>
 </template>
@@ -120,9 +139,22 @@ export default {
             selections: [],
             selection: {},
             modalFlag: false,
+            tab: null,
         }
     },
     methods:{
+        findDoubles(menus){
+            let noDoubles=[];
+            menus.forEach(menu=>{
+                console.log(menu.name)
+                if(!noDoubles.some(item=>item.name===menu.name)){
+                    console.log('push:',menu.name)
+                    noDoubles.push(menu)
+                }
+            });
+            console.log(noDoubles)
+            return noDoubles;
+        },
         todaysMenu(menus){
             console.log('menus',menus)
             const date = new Date()
