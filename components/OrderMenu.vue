@@ -66,8 +66,8 @@
     <br/>
     <br/>
     <v-container>
-        <v-card-title>this is a sample of all of the menus with order capability</v-card-title>
-        <v-card-title>Depending on the day and time any of them could appear</v-card-title>
+        <v-card-title>This is a sample of all of the menus with order capability</v-card-title>
+        <v-card-title>Depending on the day and time, any of them could show above</v-card-title>
         <v-dialog
             v-model="modalFlag"
             fullscreen
@@ -99,7 +99,7 @@
                 v-for="menu in findDoubles(menus)"
                 :key="menu._id"
             >
-            <v-card-title>
+            <v-card-subtitle>
                 Available: 
                 <template v-for="(day,i) in menu.days" :key="i">
                     {{ (menu.days.length-1 - i) ? day.name + ", " : day.name + " "}}
@@ -108,7 +108,7 @@
                 {{ (((menu.start_time/100)/12) < 1) ?  " AM " : " PM " }}
                 {{ "- "+  makeTwo((menu.end_time/100) % 12 ) + ":" + makeTwo(menu.end_time % 100)}}
                 {{ (((menu.end_time/100)/12) < 1) ?  " AM " : " PM " }}
-            </v-card-title>
+            </v-card-subtitle>
                 <v-expansion-panels
                     id="top"
                     flat
