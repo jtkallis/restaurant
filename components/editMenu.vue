@@ -30,7 +30,7 @@
             </template>
             <template v-else-if="menu.days.length">
                 <v-chip v-for="(day,i) in menu.days" :key="i">
-                    {{ day }}                
+                    {{ day.name }}                
                 </v-chip>
             </template>
         </v-card-item>
@@ -141,8 +141,6 @@ export default {
             this.$router.push({path:'/editmenu/menus',});
         },
         async submitMenu(){
-            console.log(this.menu)
-            console.log(this.newMenu)
             const holder = {
                 name: this.newMenu.name ? this.newMenu.name : this.menu.name,
                 hours: this.newMenu.hours ? this.newMenu.hours : this.menu.hours,
@@ -153,7 +151,6 @@ export default {
                 method: 'PUT',
                 body: JSON.stringify(holder)
             });
-            console.log(res)
             this.$router.push({path:'/editMenu/menus',})
 
         },
@@ -161,7 +158,6 @@ export default {
             const res = await useFetch('/api/menus/'+this.menu._id, {
                 method: 'DELETE'
             });
-            console.log('delete',res)
             this.$router.push({path:'/editMenu/menus',})
         }
     }

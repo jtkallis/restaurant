@@ -10,18 +10,19 @@
         v-model="checkoutFlag"
         id="nav-drawer"
         temporary
-        width="100%"
+        max-width="none"
+        width="50%"
         location="left"
+
     >
         <CheckoutDrawer
             id="checkout"
             :selected="selections"
-            @getPermFlag="fromDrawer"
         />
     </v-navigation-drawer> 
     <div v-if="todaysMenu(menus)">
         <v-dialog
-            v-model="modalFlag"
+            v-model="modalFlag2"
             fullscreen
             persistent
         >
@@ -156,6 +157,7 @@ export default {
             selections: [],
             selection: {},
             modalFlag: false,
+            modalFlag2: false,
             tab: null,
         }
     },
@@ -168,67 +170,53 @@ export default {
             return formattedNumber;
         },
         todaysMenu(menus){
-            console.log('menus',menus)
             const date = new Date()
             const today = date.getDay()
             const nowHours = date.getHours()
             const nowMins = date.getMinutes()
-            console.log(date)
-            console.log(today)
-            console.log(nowHours)
-            console.log(nowMins)
             let todaysMenu;
 
             menus.forEach( (menu) => {
                 //if today is in the days array
-                console.log('menu',menu);
-                console.log(menu.days.some(day=>day.index===today))
                 let flag =  menu.days.some(day=>day.index===today);
-                if( flag ){console.log('0')
+                if( flag ){
                     const startHours = Math.floor(menu.start_time/100);
                     const startMins = menu.start_time % 100;
                     const endHours = Math.floor(menu.end_time/100);
                     const endMins = menu.end_time % 100;
-                    console.log('h ',startHours,' m ',startMins)
-                    console.log(endHours,endMins)
-                    console.log(nowHours>=startHours)
-                    console.log(nowHours <=endHours)
                     //find out if the menu is open
                     if( (nowHours >= startHours) && (nowHours <= endHours) ){
-                        console.log('1')
+
                         if(startMins){
-                            console.log('2')
                             if(nowMins>startMins){
-                                console.log('3')
                                 if(endMins){
-                                    console.log('4')
                                     if(nowMins<endMins){
-                                        console.log('5')
                                         todaysMenu ={...menu};
                                     }
                                 }else{
-                                    console.log('a')
                                     todaysMenu ={...menu};
                                 }
                             }
                         }else{
                             if(endMins){
-                                console.log('6')
                                 if(nowMins<endMins){
-                                    console.log('7')
                                     todaysMenu ={...menu};
                                 }
                             }
                             else{
-                                console.log('c')
                                 todaysMenu ={...menu};
                             }
                         }
                     }
                 }
             })
-            console.log('x',todaysMenu)
+            if(!todaysMenu){
+                todaysMenu={name: "the restaurant is currently not taking orders", id: 0}
+            }
             return todaysMenu;
+        },
+        fromDrawer(){
+            console.log('')//avoids warning
         },
         /**
          * receieves item data from <OrderItem/>
@@ -285,9 +273,6 @@ export default {
             //open modal
             this.modalFlag=true;
             
-        },
-        fromDrawer(){
-            console.log('from Drawer')
         },
         /**
          * recieves the options choosen from <SelectionModal/>

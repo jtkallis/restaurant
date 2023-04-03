@@ -118,7 +118,13 @@ export default {
             if(this.selection.options[i].choice - this.selection.options[i].choices.length){
               this.theItem=ingrHolder;
               this.modalFlag=true;
+            }else{
+                this.theItem=ingrHolder;
+                this.modalFlag=true;
             }
+          }else{
+              this.theItem=ingrHolder;
+              this.modalFlag=true;
           }
         }else{
           this.selection.price+=ingrHolder.price;

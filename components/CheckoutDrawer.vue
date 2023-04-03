@@ -136,7 +136,6 @@ export default {
       return "mdi-numeric-"+(i+1);
     },
     flipFlags(){
-      this.$emit("getPermFlag");
       this.order={};
       this.checkoutFormFlag = false;
     },

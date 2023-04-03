@@ -48,13 +48,10 @@
         findDoubles(menus){
             let noDoubles=[];
             menus.forEach(menu=>{
-                console.log(menu.name)
                 if(!noDoubles.some(item=>item.name===menu.name)){
-                    console.log('push:',menu.name)
                     noDoubles.push(menu)
                 }
             });
-            console.log(noDoubles)
             return noDoubles;
         }
     }

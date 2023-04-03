@@ -111,7 +111,6 @@ export default{
                 method: 'POST',
                 body: JSON.stringify(holder)
             })
-            console.log('new menu',res)
             this.$router.push({path:'/editMenu/',})
         },
     }
