@@ -94,21 +94,21 @@
                 {{menu.name}}
             </v-tab>
         </v-tabs>
-        <v-card-title>
-            Available: 
-            <template v-for="(day,i) in menu.days" :key="i">
-                {{ (menu.days.length-1 - i) ? day.name + ", " : day.name + " "}}
-            </template><br/>
-            {{makeTwo((menu.start_time/100) % 12 ) + ":" + makeTwo(menu.start_time % 100)}}
-            {{ (((menu.start_time/100)/12) < 1) ?  " AM " : " PM " }}
-            {{ "- "+  makeTwo((menu.end_time/100) % 12 ) + ":" + makeTwo(menu.end_time % 100)}}
-            {{ (((menu.end_time/100)/12) < 1) ?  " AM " : " PM " }}
-        </v-card-title>
         <v-window v-model="tab">
             <v-window-item
                 v-for="menu in findDoubles(menus)"
                 :key="menu._id"
             >
+            <v-card-title>
+                Available: 
+                <template v-for="(day,i) in menu.days" :key="i">
+                    {{ (menu.days.length-1 - i) ? day.name + ", " : day.name + " "}}
+                </template><br/>
+                {{makeTwo((menu.start_time/100) % 12 ) + ":" + makeTwo(menu.start_time % 100)}}
+                {{ (((menu.start_time/100)/12) < 1) ?  " AM " : " PM " }}
+                {{ "- "+  makeTwo((menu.end_time/100) % 12 ) + ":" + makeTwo(menu.end_time % 100)}}
+                {{ (((menu.end_time/100)/12) < 1) ?  " AM " : " PM " }}
+            </v-card-title>
                 <v-expansion-panels
                     id="top"
                     flat
