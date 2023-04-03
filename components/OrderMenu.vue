@@ -79,7 +79,7 @@
             id="top"
             flat
             tile
-        >   *************RESTAURANT IS CLOSED*********************
+        >   ************RESTAURANT IS CLOSED***this is for example purposes****************
             <v-expansion-panel
                 v-for="(section,i) in menus[1].sections"
                 id="ex-panel"
