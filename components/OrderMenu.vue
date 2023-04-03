@@ -141,7 +141,8 @@ export default {
                 console.log('menu',menu.days);
                 console.log(typeof today)
                 console.log(menu.days.some(day=>day.index===today))
-                if( menu.days.some(day=>day.index===today) ){console.log('0')
+                let flag =  menu.days.some(day=>day.index===today);
+                if( flag ){console.log('0')
                     const startHours = Math.floor(menu.start_time/100);
                     const startMins = menu.start_time % 100;
                     const endHours = Math.floor(menu.end_time/100);
@@ -177,6 +178,7 @@ export default {
                                 else{return {name: 'restaurant is closed, ordering is unavailable -- 2'}}
                             }
                             else{
+                                console.log(menu)
                                 return menu;
                             }
                         }
