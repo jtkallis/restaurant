@@ -88,7 +88,7 @@
         <v-card>
           <v-tabs v-model="tab">
             <v-tab
-                v-for="menu in findDoubles(menus)"
+                v-for="menu in menus"
                 :key=menu._id
             >
                 {{menu.name}}
@@ -96,7 +96,7 @@
         </v-tabs>
         <v-window v-model="tab">
             <v-window-item
-                v-for="menu in findDoubles(menus)"
+                v-for="menu in menus"
                 :key="menu._id"
             >
             <v-card-title>Available:</v-card-title>
@@ -166,18 +166,6 @@ export default {
                 useGrouping: false
             })
             return formattedNumber;
-        },
-        findDoubles(menus){
-            let noDoubles=[];
-            menus.forEach(menu=>{
-                console.log(menu.name)
-                if(!noDoubles.some(item=>item.name===menu.name)){
-                    console.log('push:',menu.name)
-                    noDoubles.push(menu)
-                }
-            });
-            console.log(noDoubles)
-            return noDoubles;
         },
         todaysMenu(menus){
             console.log('menus',menus)
