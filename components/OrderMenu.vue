@@ -1,7 +1,7 @@
 <template>
   <div id="section-component">
     <v-toolbar id="bar">
-      <v-toolbar-title>{{todaysMenu(menus)}}</v-toolbar-title>
+      <v-toolbar-title>{{todaysMenu(menus).name}}</v-toolbar-title>
         <template v-slot:prepend>
           <v-icon icon="mdi-cart" @click="checkoutFlag=(!checkoutFlag)"/>
         </template>
