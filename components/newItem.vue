@@ -16,13 +16,14 @@
         </v-card-item>
         <v-card-item>
             Add Section: {{ newItem.section.name }} <br/>
-            <v-chip
+            <template
                 v-for="(section,i) in sections"
                 :key="i"
-                @click="addSection(section)"
             >
-                {{ section.name }}
-            </v-chip>
+                <v-chip @click="addSection(section)">
+                    {{ section.name }}
+                </v-chip>
+            </template>
         </v-card-item>
         <v-card-item>
             Add Options for Item: <br/>
@@ -73,14 +74,15 @@ export default{
     },
     methods:{
         addSection(section){
-            this.newItem.section_id=section._id;
-            this.newItem.section={
+            const sectionHolder={
                 name: section.name ? section.name : '',
                 _id: section._id ? section._id : '',
                 choice: section.choice ? section.choice : 0,
                 suggested: section.suggested.length ? section.suggested:[],
                 ingr: section.ingr.length ? section.ingr : [],
             }
+            this.newItem.section_id=sectionHolder._id;
+            this.newItem.section=sectionHolder;
         },
         addOption(section){
             const sectionHolder={...section};

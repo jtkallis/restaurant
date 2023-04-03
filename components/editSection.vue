@@ -114,6 +114,10 @@ export default{
             type: Array,
             required: true
         },
+        menus:{
+            type: Array,
+            required: true
+        },
         section: {
             type: Object,
             required: true
@@ -180,19 +184,34 @@ export default{
                 suggested: this.newSection.suggested.length ? this.newSection.suggested : this.section.suggested,
                 ingr: this.newSection.ingr.length ? this.newSection.ingr : this.section.ingr,
             }
-            const res = await useFetch('/api/sections/'+this.section._id, {
+            const section_id = this.section._id;
+            const res = await useFetch('/api/sections/'+section_id, {
                 method: 'PUT',
                 body: JSON.stringify(holder)
             })
             this.items.forEach(item=>{
-                let opIndex = item.options.findIndex((option)=>option._id===section._id);
+                let opIndex = item.options.findIndex(option=>option._id===section_id);
                 if(!(opIndex<0)){
                     item.options[opIndex] = holder;
                     this.updateItemOption(item)
                 }
             })
+            this.menus.forEach(menu=>{
+                let secIndex = menu.sections.findIndex(sec=>sec._id===section_id);
+                if(!(secIndex<0)){
+                    menu.sections[secIndex] = holder;
+                    this.updateMenuSection(menu)
+                }
+            })
             this.submitFlag=false;
             this.$router.push('/editMenu/sections')
+        },
+        async updateMenuSection(menu){
+            const res = await useFetch('/api/menus/'+menu._id,{
+                method: 'PUT',
+                body: JSON.stringify(menu)
+            })
+            console.log(res)
         },
         async updateItemOption(item){
             const holder = {...item}

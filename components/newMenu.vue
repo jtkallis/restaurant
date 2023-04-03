@@ -88,13 +88,14 @@ export default{
     },
     methods:{
         addSection(section){
-            this.newMenu.sections.push({
+            const sectionHolder={
                 name: section.name ? section.name : '',
                 _id: section._id ? section._id : '',
                 choice: section.choice ? section.choice : 0,
                 suggested: section.suggested.length ? section.suggested:[],
                 ingr: section.ingr.length ? section.ingr : [],
-            })
+            }
+            this.newMenu.sections.push({sectionHolder})
         },
         cancel(){
             newMenu=null;

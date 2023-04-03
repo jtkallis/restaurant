@@ -34,23 +34,20 @@ export default{
     },
     methods:{
         addSection(item,sections){
-            const x = sections.find((section)=>section._id===item.section_id);
-            item.section = {
-                name: x.name ? x.name : '',
-                _id: x._id ? x._id : ''
-            }
-            if(item.options.length){
-                item.options.forEach((option,i)=>{
-                    if(!option._id){
-                        const y = sections.find((section)=>section._id === option);
-                        item.options[i]={
-                            name:y.name ? y.name : '',
-                            _id:y._id ? y._id : ''
-                        };                       
+            const itemHolder={...item};
+            const section = sections.find(section=>section._id===item.section_id);
+            const sectionHolder = {...section}
+            itemHolder.section = sectionHolder;
+            if(itemHolder.options.length){
+                itemHolder.options.forEach((option,i)=>{
+                    if(typeof option === 'string'){
+                        const sec = sections.find((section)=>section._id === option);
+                        const secHolder = {...sec};
+                        itemHolder.options[i]=secHolder;                     
                     }
                 })
             }
-            return item;
+            return itemHolder;
         }
     }
 }

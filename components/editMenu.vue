@@ -34,7 +34,7 @@
                 </v-chip>
             </template>
         </v-card-item>
-        <v-card-item v-if="daysFlay">
+        <v-card-item v-if="daysFlag">
             Add days: <br/>
             <v-chip
                 v-for="(day,i) in days"

@@ -69,13 +69,15 @@
                             </v-chip>
                         </div>
                         <div v-if="sectionFlag">
-                            <v-chip
+                            <template
                                 v-for="(section,i) in sections"
                                 :key="i"
-                                @click="addSection(section)"
                             >
-                                {{ section.name }}
-                            </v-chip>
+                                <v-chip @click="addSection(section)">
+                                    {{ section.name }}
+                                </v-chip>
+                            </template>
+                            
                         </div>
                     </v-card-item>
                 </v-card>
@@ -225,36 +227,39 @@ export default {
                 method: 'PUT',
                 body: JSON.stringify(holder)
             })
+            console.log('usi',section)
             this.theItems.forEach(item=>{
                 if(item.options.length){
                     let opIndex = item.options.findIndex((option)=>option._id===section._id);
                     if(!(opIndex<0)){
                         item.options[opIndex] = holder;
+                        console.log('item',item)
                         this.updateItemOption(item)
                     }
                 }
             })
         },
         async updateItemOption(item){
-            const holder = {...item}
-            await useFetch('/api/items/'+item._id, {
+            const res = await useFetch('/api/items/'+item._id, {
                 method: 'PUT',
-                body: JSON.stringify(holder)
+                body: JSON.stringify(item)
             });
+            console.log(res)
         },
         optionsFlagFunc(){
             this.optionsFlag=!this.optionsFlag;
             this.sectionFlag = false;
         },
         addSection(section){
-            this.newItem.section = {
+            const sectionHolder = {
                 name: section.name,
                 _id: section._id,
                 choice: section.choice,
                 suggested: section.suggested,
                 ingr: section.ingr,
             }
-            this.newItem.section_id = this.newItem.section._id;
+            this.newItem.section=sectionHolder
+            this.newItem.section_id = sectionHolder._id;
         },
         addOption(option){
            let flag = this.newItem.options.some((item)=>item._id===option._id);
