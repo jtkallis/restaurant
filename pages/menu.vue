@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <v-card>
     <Menu 
       :items="items"
       :menus="menus"
       :sections="sections"
     />
-  </div>
+  </v-card>
 </template>
 
 
