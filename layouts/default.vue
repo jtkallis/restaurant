@@ -1,18 +1,18 @@
 <template>
-        <v-layout>
-            <v-app-bar>
+        <v-app>
+            <v-app-bar app>
                 <v-btn to="/">Home</v-btn>
                 <v-btn to="/createOrder">Order</v-btn>
                 <v-btn to="/menu">Menu</v-btn>
                 <v-btn to="/editMenu">Edit Menu</v-btn>
             </v-app-bar>
-            <v-main>
+            <v-main app>
                 <NuxtPage/>
             </v-main>
-            <v-footer>
+            <v-footer app>
                 <span id="footer">John Kallis website</span>
             </v-footer> 
-        </v-layout>
+        </v-app>
 </template>
 <style scoped>
 #footer {
