@@ -1,7 +1,7 @@
 <template>
   <div id="section-component">
     <v-toolbar id="bar">
-      <v-toolbar-title>{{todaysMenu(menus).name}}</v-toolbar-title>
+      <v-toolbar-title>{{ todaysMenu(menus).name ? todaysMenu(menus).name : "no menu name" }}</v-toolbar-title>
         <template v-slot:prepend>
           <v-icon icon="mdi-cart" @click="checkoutFlag=(!checkoutFlag)"/>
         </template>
@@ -20,7 +20,7 @@
             :selected="selections"
         />
     </v-navigation-drawer> 
-    <div v-if="todaysMenu(menus)">
+    <div v-if="thisMenu">
         <v-dialog
             v-model="modalFlag2"
             fullscreen
@@ -42,14 +42,15 @@
             id="top"
             flat
             tile
+            v-if="thisMenu.sections"
         >
             <v-expansion-panel
-                v-for="(section,i) in todaysMenu(menus).sections"
+                v-for="(section,i) in thisMenu.sections"
                 id="ex-panel"
                 :key="i"
                 :title="section.name"
             >
-                <v-expansion-panel-text>
+                <v-expansion-panel-text id="panel">
                    <OrderItem
                         :theItems="items.filter(item=> item.section_id === section._id)"
                         @passToMenu="fromItem"
@@ -66,7 +67,7 @@
     <br/>
     <br/>
     <br/>
-    <v-container>
+    <v-container id="container">
         <v-card-title>This is a sample of all of the menus with order capability</v-card-title>
         <v-card-title>Depending on the day and time, any of them could show above</v-card-title>
         <v-dialog
@@ -86,11 +87,13 @@
                 /> 
             </v-card>
         </v-dialog>
-        <v-card>
-          <v-tabs v-model="tab">
+        <v-card id="card">
+          <v-tabs v-model="tab" align-tabs="center" id="bar">
             <v-tab
                 v-for="menu in menus"
                 :key=menu._id
+                slider-color="green-darken-4"
+                color="green-darken-4"
             >
                 {{menu.name}}
             </v-tab>
@@ -99,6 +102,7 @@
             <v-window-item
                 v-for="menu in menus"
                 :key="menu._id"
+                id="tab"
             >
             <v-card-title>Available:</v-card-title>
             <v-card-subtitle>
@@ -121,7 +125,7 @@
                         :key="i"
                         :title="section.name"
                     >
-                        <v-expansion-panel-text>
+                        <v-expansion-panel-text id="panel">
                             <OrderItem
                                 :theItems="items.filter(item=> item.section_id === section._id)"
                                 @passToMenu="fromItem"
@@ -159,6 +163,7 @@ export default {
             modalFlag: false,
             modalFlag2: false,
             tab: null,
+            thisMenu: this.todaysMenu(this.menus)
         }
     },
     methods:{
@@ -174,7 +179,7 @@ export default {
             const today = date.getDay()
             const nowHours = date.getHours()
             const nowMins = date.getMinutes()
-            let todaysMenu;
+            let theMenu;
 
             menus.forEach( (menu) => {
                 //if today is in the days array
@@ -191,29 +196,31 @@ export default {
                             if(nowMins>startMins){
                                 if(endMins){
                                     if(nowMins<endMins){
-                                        todaysMenu ={...menu};
+                                        theMenu ={...menu};
                                     }
                                 }else{
-                                    todaysMenu ={...menu};
+                                    theMenu ={...menu};
                                 }
                             }
                         }else{
                             if(endMins){
                                 if(nowMins<endMins){
-                                    todaysMenu ={...menu};
+                                    theMenu ={...menu};
                                 }
                             }
                             else{
-                                todaysMenu ={...menu};
+                                theMenu ={...menu};
                             }
                         }
                     }
                 }
             })
-            if(!todaysMenu){
-                todaysMenu={name: "the restaurant is currently not taking orders", id: 0}
+            console.log(theMenu)
+            if(theMenu===undefined){
+                console.log('x')
+                theMenu={name: "the restaurant is currently not taking orders", id: 0}
             }
-            return todaysMenu;
+            return theMenu;
         },
         fromDrawer(){
             console.log('')//avoids warning

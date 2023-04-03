@@ -1,11 +1,11 @@
 <template>
-  <v-card>
+  <div>
         <OrderMenu
           :items="items"
           :menus="menus"
           :sections="sections"
         />
-  </v-card>
+  </div>
 </template>
 <script setup>
 const { data: sections } = await useFetch("/api/sections");

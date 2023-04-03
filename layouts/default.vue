@@ -6,17 +6,24 @@
                 <v-btn to="/menu">Menu</v-btn>
                 <v-btn to="/editMenu">Edit Menu</v-btn>
             </v-app-bar>
-            <v-main app>
+            <v-main app id="main">
                 <NuxtPage/>
             </v-main>
-            <v-footer app>
-                <span id="footer">John Kallis website</span>
+            <v-footer app id="footer">
+                <span id="footer-text">John Kallis website</span>
             </v-footer> 
         </v-app>
 </template>
-<style scoped>
+<style>
 #footer {
+    height: 25px;
+}
+#footer-text {
   overflow: auto;
   font-size: 12px;
+  
+}
+#main {
+    flex-grow: 1;
 }
 </style>
