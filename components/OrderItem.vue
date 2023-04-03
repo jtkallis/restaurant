@@ -11,12 +11,6 @@
                     <v-card-title>{{ item.name }}</v-card-title>    
                     <v-card-subtitle>${{item.price/100}}</v-card-subtitle>
                     <v-card-text v-if="item.description">{{item.description}}</v-card-text>
-                    <v-card-actions>
-                        <v-btn
-                            color="orange"
-                            
-                        >Order</v-btn>
-                    </v-card-actions>
                 </v-card>
             </v-col>
         </v-row>
