@@ -40,7 +40,7 @@
                 v-for="(day,i) in days"
                 :key="i"
                 @click="newMenu.days.push(day),days.splice(i,1)"
-            >{{ day }}</v-chip>
+            >{{ day.name }}</v-chip>
         </v-card-item>
         <v-card-item>
             Sections:  <v-icon icon="mdi-account-edit" @click="sectionsFlag=true"/>
@@ -110,7 +110,9 @@ export default {
                 sections: [],
                 days: [],
             },
-            days: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday']  
+            days: [{name:'Sunday', index: 0},{name:'Monday', index:1 },{name:'Tuesday', index: 2 },
+            {name:'Wednesday', index: 3 },{name:'Thursday', index: 4 },
+            {name:'Friday', index: 5 },{name:'Saturday', index: 6 }]  
         }
     },
     methods: {
