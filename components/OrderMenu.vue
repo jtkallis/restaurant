@@ -57,10 +57,17 @@
             </v-expansion-panel>
         </v-expansion-panels>
     </div>
+    <div v-else>
+        <v-card>
+            <v-card-title>The Restaurant is closed</v-card-title>
+        </v-card>
+    </div>
     <br/>
     <br/>
     <br/>
-    <div>
+    <v-card>
+        <v-card-title>this is a sample of all of the menus with order capability</v-card-title>
+        <v-card-title>Depending on the day and time any of them could appear</v-card-title>
         <v-dialog
             v-model="modalFlag"
             fullscreen
@@ -87,6 +94,16 @@
                 {{menu.name}}
             </v-tab>
         </v-tabs>
+        <v-card-title>
+            Available: 
+            <template v-for="(day,i) in menu.days" :key="i">
+                {{ (menu.days.length-1 - i) ? day.name + ", " : day.name + " "}}
+            </template><br/>
+            {{makeTwo((menu.start_time/100) % 12 ) + ":" + makeTwo(menu.start_time % 100)}}
+            {{ (((menu.start_time/100)/12) < 1) ?  " AM " : " PM " }}
+            {{ "- "+  makeTwo((menu.end_time/100) % 12 ) + ":" + makeTwo(menu.end_time % 100)}}
+            {{ (((menu.end_time/100)/12) < 1) ?  " AM " : " PM " }}
+        </v-card-title>
         <v-window v-model="tab">
             <v-window-item
                 v-for="menu in findDoubles(menus)"
@@ -114,7 +131,7 @@
             </v-window-item>
         </v-window>
       </v-card>
-    </div>
+    </v-card>
   </div>
 </template>
 <script>
@@ -143,6 +160,13 @@ export default {
         }
     },
     methods:{
+        makeTwo(number){
+            let formattedNumber = number.toLocaleString('en-US', {
+                minimumIntegerDigits: 2,
+                useGrouping: false
+            })
+            return formattedNumber;
+        },
         findDoubles(menus){
             let noDoubles=[];
             menus.forEach(menu=>{
