@@ -65,7 +65,7 @@
     <br/>
     <br/>
     <br/>
-    <v-card>
+    <v-container>
         <v-card-title>this is a sample of all of the menus with order capability</v-card-title>
         <v-card-title>Depending on the day and time any of them could appear</v-card-title>
         <v-dialog
@@ -131,7 +131,7 @@
             </v-window-item>
         </v-window>
       </v-card>
-    </v-card>
+    </v-container>
   </div>
 </template>
 <script>
