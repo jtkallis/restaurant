@@ -91,7 +91,6 @@
                    <OrderItem
                         :theItems="items.filter(item=> item.section_id === section._id)"
                         @passToMenu="fromItem"
-                        disabled
                     />  
                 </v-expansion-panel-text>
             </v-expansion-panel>
@@ -134,7 +133,7 @@ export default {
             console.log(today)
             console.log(nowHours)
             console.log(nowMins)
-            
+            let todaysMenu;
 
             menus.forEach( (menu) => {
                 //if today is in the days array
@@ -161,31 +160,31 @@ export default {
                                     console.log('4')
                                     if(nowMins<endMins){
                                         console.log('5')
-                                        return menu;
-                                    }else{console.log('g');return {name: 'restaurant is closed, ordering is unavailable -- 4',id:4}}
+                                        todaysMenu ={...menu};
+                                    }
                                 }else{
                                     console.log('a')
-                                    return menu;
+                                    todaysMenu ={...menu};
                                 }
-                            }else{console.log('b');return {name: 'restaurant is closed, ordering is unavailable -- 3',id:3}}
+                            }
                         }else{
                             if(endMins){
                                 console.log('6')
                                 if(nowMins<endMins){
                                     console.log('7')
-                                    return menu;
+                                    todaysMenu ={...menu};
                                 }
-                                else{console.log('m');return {name: 'restaurant is closed, ordering is unavailable -- 2',id:2}}
                             }
                             else{
                                 console.log('c')
-                                return menu;
+                                todaysMenu ={...menu};
                             }
                         }
-                    }else{console.log('k');return {name: 'restaurant is closed, ordering is unavailable -- 1',id:1}}
-                }else{console.log('w');return {name: 'restaurant is closed, ordering is unavailable',id:9}}
+                    }
+                }
             })
-            console.log('loop over why no return')
+            console.log('x',todaysMenu)
+            return todaysMenu;
         },
         /**
          * receieves item data from <OrderItem/>
