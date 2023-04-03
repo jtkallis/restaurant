@@ -184,8 +184,46 @@ export default{
                 method: 'PUT',
                 body: JSON.stringify(holder)
             })
+            this.items.forEach(item=>{
+                let opIndex = item.options.findIndex((option)=>option._id===section._id);
+                if(!(opIndex<0)){
+                    item.options[opIndex] = holder;
+                    this.updateItemOption(item)
+                }
+            })
             this.submitFlag=false;
             this.$router.push('/editMenu/sections')
+        },
+        async updateItemOption(item){
+            const holder = {...item}
+            await useFetch('/api/items/'+item._id, {
+                method: 'PUT',
+                body: JSON.stringify(holder)
+            });
+            this.sections.forEach(section=>{
+                if(section.ingr.length){
+                    let ingrIndex = section.ingr.findIndex((item)=>item._id===holder._id);
+                    if(!(ingrIndex<0)){
+                        section.ingr[ingrIndex] = holder;
+                        console.log('sec',section);
+                        if(section.suggested.length){
+                            let sugIndex = section.suggested.findIndex((item)=>item._id===holder._id)
+                            if(!(sugIndex<0)){
+                                section.suggested[sugIndex] = holder;
+                            }
+                        }
+                        this.updateSectionsWItem(section)
+                    } 
+                }
+                
+            })
+        },
+        async updateSectionsWItem(section){
+            const holder={...section}
+            await useFetch('/api/sections/'+section._id, {
+                method: 'PUT',
+                body: JSON.stringify(holder)
+            })
         },
         addIngr(item){
             if(this.newSection.ingr.length){
