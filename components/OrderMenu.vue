@@ -79,7 +79,7 @@
             id="top"
             flat
             tile
-        >
+        >   *************RESTAURANT IS CLOSED*********************
             <v-expansion-panel
                 v-for="(section,i) in menus[1].sections"
                 id="ex-panel"
@@ -87,7 +87,7 @@
                 :title="section.name"
             >
                 <v-expansion-panel-text>
-                    *************RESTAURANT IS CLOSED*********************8
+                    
                    <OrderItem
                         :theItems="items.filter(item=> item.section_id === section._id)"
                         @passToMenu="fromItem"
