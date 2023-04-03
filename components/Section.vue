@@ -7,9 +7,10 @@
             :title="section.name"
         >
               <v-expansion-panel-text>
-                  <Item
-                    :items="sectionItems(section)"
-                  />
+                <OrderItem
+                    :theItems="sectionItems(items)"
+                    @passToMenu="fromItem"
+                    />
               </v-expansion-panel-text>
           </v-expansion-panel>
       </v-expansion-panels>
@@ -38,6 +39,9 @@ export default {
             })
             return theItems
         },
+        fromItem(selection){
+            console.log('selection:',selection)
+        }
     }
 }
 </script>
