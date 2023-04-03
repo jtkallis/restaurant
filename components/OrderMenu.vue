@@ -138,7 +138,7 @@ export default {
 
             menus.forEach( (menu) => {
                 //if today is in the days array
-                console.log('menu',menu.days);
+                console.log('menu',menu);
                 console.log(typeof today)
                 console.log(menu.days.some(day=>day.index===today))
                 let flag =  menu.days.some(day=>day.index===today);
