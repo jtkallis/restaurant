@@ -99,8 +99,8 @@
                 v-for="menu in findDoubles(menus)"
                 :key="menu._id"
             >
+            <v-card-title>Available:</v-card-title>
             <v-card-subtitle>
-                Available: 
                 <template v-for="(day,i) in menu.days" :key="i">
                     {{ (menu.days.length-1 - i) ? day.name + ", " : day.name + " "}}
                 </template><br/>
