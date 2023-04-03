@@ -8,7 +8,7 @@
             <v-chip
                 v-for="(day,i) in menu.days"
                 :key="i"
-            >{{ day }}</v-chip>
+            >{{ day.name }}</v-chip>
         </v-card-item>
         <v-card-item>
             Sections: <br/>

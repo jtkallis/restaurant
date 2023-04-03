@@ -182,7 +182,7 @@ export default {
             this.sectionFlag=false;
         },
         async deleteItem(){
-            const res = await useFetch('/api/items/'+this.theItem._id, {
+            await useFetch('/api/items/'+this.theItem._id, {
                 method: 'DELETE'
             });
             this.$router.push({path: '/editmenu/items'})
@@ -200,7 +200,47 @@ export default {
                 method: 'PUT',
                 body: JSON.stringify(holder)
             });
+            this.sections.forEach(section=>{
+                if(section.ingr.length){
+                    let ingrIndex = section.ingr.findIndex((item)=>item._id===holder._id);
+                    if(!(ingrIndex<1)){
+                        section.ingr[ingrIndex] = holder;
+                        console.log('sec',section);
+                        if(section.suggested.length){
+                            let sugIndex = section.suggested.findIndex((item)=>item._id===holder._id)
+                            if(!(sugIndex<1)){
+                                section.suggested[sugIndex] = holder;
+                            }
+                        }
+                        this.updateSectionsWItem(section)
+                    } 
+                }
+                
+            })
             this.$router.push({path:'/editMenu/items'})
+        },
+        async updateSectionsWItem(section){
+            const holder={...section}
+            await useFetch('/api/sections/'+section._id, {
+                method: 'PUT',
+                body: JSON.stringify(holder)
+            })
+            this.theItems.forEach(item=>{
+                if(item.options.length){
+                    let opIndex = item.options.findIndex((option)=>option._id===section._id);
+                    if(!(opIndex<1)){
+                        item.options[opIndex] = holder;
+                        this.updateItemOption(item)
+                    }
+                }
+            })
+        },
+        async updateItemOption(item){
+            const holder = {...item}
+            await useFetch('/api/items/'+item._id, {
+                method: 'PUT',
+                body: JSON.stringify(holder)
+            });
         },
         optionsFlagFunc(){
             this.optionsFlag=!this.optionsFlag;
@@ -217,25 +257,20 @@ export default {
             this.newItem.section_id = this.newItem.section._id;
         },
         addOption(option){
-            
-           let x = this.newItem.options.filter((item)=>item._id===option._id);
-          
-           if(x.length){}
-           else{
+           let flag = this.newItem.options.some((item)=>item._id===option._id);
+           if(!(flag)){
             this.newItem.options.push(option)
            }
         },
         addSuggested(suggested){
-            let x = this.newSection.suggested.filter((item)=>item._id===suggested._id);
-            if(x.length){}
-            else{
+            let flag = this.newSection.suggested.some((item)=>item._id===suggested._id);
+            if(!(flag)){
                 this.newSection.suggested.push(suggested);
             }
         },
         addIngr(ingr){
-            let x = this.newSection.ingr.filter((item)=>item._id===ingr._id);
-            if(x.length){}
-            else{
+            let flag = this.newSection.ingr.some((item)=>item._id===ingr._id);
+            if(!(flag)){
                 this.newSection.ingr.push(ingr)
             }
         },
