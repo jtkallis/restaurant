@@ -1,7 +1,7 @@
 <template>
   <div id="section-component">
     <v-toolbar id="bar">
-      <v-toolbar-title>{{todaysMenu(menus).name}}</v-toolbar-title>
+      <v-toolbar-title>{{todaysMenu(menus)}}</v-toolbar-title>
         <template v-slot:prepend>
           <v-icon icon="mdi-cart" @click="checkoutFlag=(!checkoutFlag)"/>
         </template>
@@ -139,7 +139,6 @@ export default {
             menus.forEach( (menu) => {
                 //if today is in the days array
                 console.log('menu',menu);
-                console.log(typeof today)
                 console.log(menu.days.some(day=>day.index===today))
                 let flag =  menu.days.some(day=>day.index===today);
                 if( flag ){console.log('0')
@@ -163,11 +162,12 @@ export default {
                                     if(nowMins<endMins){
                                         console.log('5')
                                         return menu;
-                                    }else{return {name: 'restaurant is closed, ordering is unavailable -- 4'}}
+                                    }else{console.log('g');return {name: 'restaurant is closed, ordering is unavailable -- 4',id:4}}
                                 }else{
+                                    console.log('a')
                                     return menu;
                                 }
-                            }else{return {name: 'restaurant is closed, ordering is unavailable -- 3'}}
+                            }else{console.log('b');return {name: 'restaurant is closed, ordering is unavailable -- 3',id:3}}
                         }else{
                             if(endMins){
                                 console.log('6')
@@ -175,15 +175,15 @@ export default {
                                     console.log('7')
                                     return menu;
                                 }
-                                else{return {name: 'restaurant is closed, ordering is unavailable -- 2'}}
+                                else{console.log('m');return {name: 'restaurant is closed, ordering is unavailable -- 2',id:2}}
                             }
                             else{
-                                console.log(menu)
+                                console.log('c')
                                 return menu;
                             }
                         }
-                    }else{return {name: 'restaurant is closed, ordering is unavailable -- 1'}}
-                }else{return {name: 'restaurant is closed, ordering is unavailable'}}
+                    }else{console.log('k');return {name: 'restaurant is closed, ordering is unavailable -- 1',id:1}}
+                }else{console.log('w');return {name: 'restaurant is closed, ordering is unavailable',id:9}}
             })
         },
         /**
