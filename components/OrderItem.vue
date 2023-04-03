@@ -6,7 +6,7 @@
                 :key="i"
                 cols
             >
-                <v-card @click="$emit('passToMenu', item)" height="100%" tile>  
+                <v-card @click="$emit('passToMenu', item)" width="100%" height="100%" tile>  
                     <v-card-title>{{ item.name }}</v-card-title>    
                     <v-card-subtitle>${{item.price/100}}</v-card-subtitle>
                     <v-card-text v-if="item.description">{{item.description}}</v-card-text>
