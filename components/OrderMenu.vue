@@ -102,7 +102,7 @@
             <v-card-title>Available:</v-card-title>
             <v-card-subtitle>
                 <template v-for="(day,i) in menu.days" :key="i">
-                    {{ (menu.days.length-1 - i) ? day.name + ", " : day.name + " "}}
+                    {{ ((menu.days.length - i)>0) ? day.name + ", " : day.name + " "}}
                 </template><br/>
                 {{makeTwo((menu.start_time/100) % 12 ) + ":" + makeTwo(menu.start_time % 100)}}
                 {{ (((menu.start_time/100)/12) < 1) ?  " AM " : " PM " }}
