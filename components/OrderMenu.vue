@@ -104,7 +104,7 @@ export default {
                 console.log('menu',menu.days);
                 console.log(typeof today)
                 console.log(menu.days.some(day=>day.index===today))
-                if( menu.days.some(day=>day.index===today) ){
+                if( menu.days.some(day=>day.index===today) ){console.log('0')
                     const startHours = Math.floor(menu.start_time/100);
                     const startMins = menu.start_time % 100;
                     const endHours = Math.floor(menu.end_time/100);
@@ -115,10 +115,15 @@ export default {
                     console.log(nowHours <=endHours)
                     //find out if the menu is open
                     if( (nowHours >= startHours) && (nowHours <= endHours) ){
+                        console.log('1')
                         if(startMins){
+                            console.log('2')
                             if(nowMins>startMins){
+                                console.log('3')
                                 if(endMins){
+                                    console.log('4')
                                     if(nowMins<endMins){
+                                        console.log('5')
                                         return menu;
                                     }else{return {name: 'restaurant is closed, ordering is unavailable -- 4'}}
                                 }else{
@@ -127,7 +132,9 @@ export default {
                             }else{return {name: 'restaurant is closed, ordering is unavailable -- 3'}}
                         }else{
                             if(endMins){
+                                console.log('6')
                                 if(nowMins<endMins){
+                                    console.log('7')
                                     return menu;
                                 }
                                 else{return {name: 'restaurant is closed, ordering is unavailable -- 2'}}
