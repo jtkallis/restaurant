@@ -4,7 +4,8 @@
             <v-col
                 v-for="(item,i) in theItems"
                 :key="i"
-                cols
+                cols="12"
+                sm="3"
             >
                 <v-card @click="$emit('passToMenu', item)" width="100%" height="100%" tile>  
                     <v-card-title>{{ item.name }}</v-card-title>    
