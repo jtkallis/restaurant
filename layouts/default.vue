@@ -10,7 +10,7 @@
                 <NuxtPage/>
             </v-main>
             <v-footer app id="footer">
-                <span id="footer-text">John Kallis website</span>
+                <span id="footer-text">John Kallis websites jtkallis@gmail.com</span>
             </v-footer> 
         </v-app>
 </template>

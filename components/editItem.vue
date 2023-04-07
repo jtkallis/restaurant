@@ -138,7 +138,6 @@ export default {
                 name: '',
                 description: '',
                 price: 0,
-                section_id: '',
                 section: {
                     name: '',
                 },
@@ -150,7 +149,7 @@ export default {
     },
     methods: {
         getItem(){
-            const section = this.sections.find(section=>section._id===this.theItem.section_id);
+            const section = this.sections.find(section=>section._id===this.theItem.section._id);
             const holder = {
                 name: section.name ? section.name : '',
                 _id: section._id ? section._id : '',
@@ -163,7 +162,7 @@ export default {
         },
         getItems(){
             this.theItems.forEach((item)=>{
-                const section = this.sections.find(section=>section._id===this.theItem.section_id);
+                const section = this.sections.find(section=>section._id===this.theItem.section._id);
                 const holder = {
                     name: section.name,
                     _id: section._id,
@@ -194,7 +193,7 @@ export default {
                 _id: this.item._id,
                 name: this.newItem.name ? this.newItem.name : this.item.name,
                 price: this.newItem.price ? this.newItem.price : this.item.price,
-                section_id: this.newItem.section_id ? this.newItem.section_id : this.item.section_id,
+                section: this.newItem.section ? this.newItem.section : this.item.section,
                 options: this.newItem.options.length ? this.newItem.options : this.item.options,
                 description: this.newItem.description ? this.newItem.description : this.item.description
             }
@@ -230,7 +229,7 @@ export default {
             console.log('usi',section)
             this.theItems.forEach(item=>{
                 if(item.options.length){
-                    let opIndex = item.options.findIndex((option)=>option._id===section._id);
+                    let opIndex = item.options.findIndex((option)=>option===section._id);
                     if(!(opIndex<0)){
                         item.options[opIndex] = holder;
                         console.log('item',item)
@@ -259,7 +258,6 @@ export default {
                 ingr: section.ingr,
             }
             this.newItem.section=sectionHolder
-            this.newItem.section_id = sectionHolder._id;
         },
         addOption(option){
            let flag = this.newItem.options.some((item)=>item._id===option._id);

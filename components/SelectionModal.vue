@@ -39,8 +39,8 @@ import SelectionModal from './SelectionModal.vue'
           </template>
         </v-select>
         <v-dialog v-model="modalFlag">
-            <SelectionModal :selection="theItem" :index="i" @getSelection="fromModal"/>
-          </v-dialog>
+          <SelectionModal :selection="theItem" :index="i" @getSelection="fromModal"/>
+        </v-dialog>
       </v-card>
     </v-card-item>
     <v-card-actions>
@@ -54,6 +54,10 @@ export default {
   props: {
     selection: {
       type: Object,
+      requierd: true
+    },
+    sections: {
+      type: Array,
       requierd: true
     },
     index: {
@@ -71,6 +75,9 @@ export default {
       openFlag: false,
     }
   },
+  /**Note:
+   * change v-select so @click will replace the current selection with the click
+   */
   methods: {
     callFunction(index){
       this.$refs.select[index].blur()
@@ -103,14 +110,19 @@ export default {
         if(ingr.options.length){
           ingr.options.forEach((option)=>{
             //initialize choices array
+            console.log('optio',option)
+            if(typeof option === 'string'){
+              option = this.sections.find(section=>section._id===option)
+            }
             const sectionHolder = {...option, choices: []}
-            
-            if(sectionHolder.suggested.length){
-              sectionHolder.suggested.forEach((item)=>{
-                //add suggested items
-                const itemHolder = {...item,}
-                sectionHolder.choices.push(itemHolder)
-              })
+            if(sectionHolder.suggested){
+              if(sectionHolder.suggested.length){
+                sectionHolder.suggested.forEach((item)=>{
+                  //add suggested items
+                  const itemHolder = {...item,}
+                  sectionHolder.choices.push(itemHolder)
+                })
+              }
             }
             ingrHolder.options.push(sectionHolder)
           })
@@ -136,7 +148,8 @@ export default {
       }else{
         this.selection.price+=ingrHolder.price;
         this.selection.options[i].choices.push(ingrHolder)
-      }      
+      } 
+      console.log('c',this.selection)    
     },
     submitOrder(selection){
         const selectHolder={

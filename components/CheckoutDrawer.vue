@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="12">
+    <v-col cols="auto">
       <v-list v-if="selected.length">
         <v-list-item :prepend-icon="mdi-cart">
           <v-btn @click="checkoutFormFlag=true">check out</v-btn>
@@ -13,57 +13,62 @@
           :title="titleString(sel)"
           class="overflow-auto"
         >
-        <template v-slot:append>
-          <v-btn
-            color="grey-lighten-1"
-            icon="mdi-close"
-            variant="text"
-            @click="selected.splice(i,1)"
-          ></v-btn>
-        </template>
+          <template v-slot:append>
+            <v-btn
+              color="grey-lighten-1"
+              icon="mdi-close"
+              variant="text"
+              @click="selected.splice(i,1)"
+            ></v-btn>
+          </template>
         <v-list-item-subtitle v-for="(option) in sel.options" :key="option._id">{{subtitleString(option)}}</v-list-item-subtitle>
         </v-list-item>
-        
         <v-divider></v-divider>
         <br/>
       </v-list>
     </v-col>
-    <v-col v-show="checkoutFormFlag">
-      <div>
-        <v-form>
-          <v-row>
-            <v-col cols="4">
+    <v-card>
+      <v-form>
+        <v-row>
+          <v-card-item>
+            <v-col cols="auto">
+            
               <v-text-field
                 v-model="order.name"
                 label="name"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="4">
-            </v-col>
-            <v-col cols="4">
+              />
               <v-text-field
                 v-model="order.phone"
                 label="phone"
-              ></v-text-field>
+              />
+          
             </v-col>
-            <v-col cols="4">
+            <v-col cols="auto">
+        
               <v-text-field
-                v-model="order.notes"
-                label="notes"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-            <v-btn
-              color="success"
-              @click="completeOrder"
-            >
-              Submit Order
-            </v-btn>
-            <v-btn @click="flipFlags">Edit Order</v-btn>
-            <v-btn @click="cancelOrder">Cancel order</v-btn>
-        </v-form>
-      </div>
-    </v-col>
+                v-model="order.notes1"
+                label="line 1"
+              />
+              <v-text-field
+                v-model="order.notes2"
+                label="line 2"
+              />
+           
+          </v-col>
+        </v-card-item>
+        </v-row>
+        <v-card-actions>
+          <v-btn
+            color="success"
+            @click="completeOrder"
+          >
+            Submit Order
+          </v-btn>
+          <v-btn @click="flipFlags">Edit Order</v-btn>
+          <v-btn @click="cancelOrder">Cancel order</v-btn>
+        </v-card-actions>
+      </v-form>
+    </v-card>
   </v-row>
 </template>
 <script>
@@ -80,7 +85,8 @@ export default {
       order: {
         name: '',
         phone: '',
-        notes: '',
+        notes1: '',
+        notes2: '',
         total: this.orderTotal,
         order: this.selected
       }

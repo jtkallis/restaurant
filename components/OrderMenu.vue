@@ -34,6 +34,7 @@
                 </v-toolbar>
                 <SelectionModal
                     :selection="selection"
+                    :sections="sections"
                     @getSelection="fromModal"
                 /> 
             </v-card>
@@ -52,7 +53,7 @@
             >
                 <v-expansion-panel-text id="panel">
                    <OrderItem
-                        :theItems="items.filter(item=> item.section_id === section._id)"
+                        :theItems="items.filter(item=> item.section._id === section._id)"
                         @passToMenu="fromItem"
                     />  
                 </v-expansion-panel-text>
@@ -83,6 +84,7 @@
                 </v-toolbar>
                 <SelectionModal
                     :selection="selection"
+                    :sections="sections"
                     @getSelection="fromModal"
                 /> 
             </v-card>
@@ -127,8 +129,9 @@
                         :title="section.name"
                     >
                         <v-expansion-panel-text id="panel">
+                            {{ theItems }}
                             <OrderItem
-                                :theItems="items.filter(item=> item.section_id === section._id)"
+                                :theItems="items.filter(item=> item.section._id === section._id)"
                                 @passToMenu="fromItem"
                             />  
                         </v-expansion-panel-text>
@@ -216,7 +219,6 @@ export default {
                     }
                 }
             })
-            console.log(theMenu)
             if(theMenu===undefined){
                 console.log('x')
                 theMenu={name: "the restaurant is currently not taking orders", id: 0}
@@ -239,7 +241,7 @@ export default {
             let selectionHolder={
                 name: selection.name,
                 price: selection.price,
-                section_id: selection.section_id,
+                section: selection.section,
                 options: [],
             }
             if( selection.options ){
@@ -256,12 +258,14 @@ export default {
                         const sectionHolder = {...selection.options[i], choices: []}
                         //if option has suggested
                         //add them to empty choices array
-                        if(sectionHolder.suggested.length){
-                            sectionHolder.suggested.forEach((item)=>{
-                                //add suggested items
-                                const itemHolder = {...item,}
-                                sectionHolder.choices.push(itemHolder)
-                            })
+                        if(sectionHolder.suggested){
+                            if(sectionHolder.suggested.length){
+                                sectionHolder.suggested.forEach((item)=>{
+                                    //add suggested items
+                                    const itemHolder = {...item,}
+                                    sectionHolder.choices.push(itemHolder)
+                                })
+                            }
                         }
                         //finally add modified option object to selectionHolder.options[]       
                         selectionHolder.options.push(sectionHolder);
@@ -274,11 +278,11 @@ export default {
                 name: selectionHolder.name,  
                 description: selectionHolder.description ? selectionHolder.description : "",
                 price: selectionHolder.price ? selectionHolder.price : 0,
-                section_id: selectionHolder.section_id,
                 section: selectionHolder.section ? selectionHolder.section : {},
                 options: selectionHolder.options ? selectionHolder.options : [],
             };
             //open modal
+            console.log('d',this.selection)
             this.modalFlag=true;
             
         },

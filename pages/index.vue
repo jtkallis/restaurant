@@ -24,9 +24,14 @@
 export default {
   data(){
     return{
-      pages: [" /Menu page displays all of the menus",
-      "/Order displays only the menu available at a given time. When an Item is selected a modal opens with a menu. after submit a text is sent to my cell phone with the order",
-      " /editMenu allows for edits to the menu. when edit is made menu is searched for all occurances of the item "],
+      pages: [
+        " /Menu page displays all of the menus",
+        "/Order displays only the menu available at a given time. When an Item is selected a modal opens with a menu. after submit a text is sent to my cell phone with the order",
+        " /editMenu allows for edits to the menu. When edit is made menu is searched for all occurances of the item",
+        "This portion is incomplete. Some items don't match across database due to an error while testing. They need to be deleted",
+        " and re-entered. Only edit works across whole menu (minus the database inconsistencies mentioned). ",
+        "It is still a work in progress."
+      ],
       item_lines: [
         "Menu Items are of this structure",
         "{",

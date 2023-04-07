@@ -31,7 +31,7 @@ export default {
         sectionItems(section){
             const theItems = []
             this.items.forEach(item =>{
-                if(section._id === item.section_id){
+                if(section._id === item.section._id){
                     item.section = section
                     theItems.push(item)
                 }

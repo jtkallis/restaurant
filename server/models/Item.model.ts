@@ -10,8 +10,8 @@ const itemSchema = new Schema({
       required:false,
       default: 0
     },
-    section_id: {
-        type: Schema.Types.ObjectId,
+    section: {
+        type: Object,
         required: false
     },
     options: [ 
