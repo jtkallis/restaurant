@@ -22,6 +22,17 @@
                             :key="i"
                         >{{ suggested.name }}</v-chip>                    
                 </v-card-item>
+                <v-card-item v-else>
+                    New Suggested Items:
+                    <v-chip
+                        v-for="(sug,i) in newSection.suggested"
+                        :key="i"
+                    >
+                        {{ sug.name }}
+                        <v-icon icon="mdi-close" @click="newSection.suggested.splice(i,1)"/>
+                    </v-chip>
+                    <v-btn @click="addSuggestedFlag=!addSuggestedFlag"><v-icon icon="mdi-account-edit"/></v-btn>
+                </v-card-item>
                 <v-card-item v-if="addSuggestedFlag">
                     New Suggested Items:
                     <v-chip

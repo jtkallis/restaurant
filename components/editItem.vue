@@ -22,7 +22,7 @@
                 <v-card-item>
                     <v-card-title @click="sectionFlagFunc()">
                         Section: 
-                        <v-chip>{{ newItem.section.name ? newItem.section.name : item.section.name }}<v-icon icon="mdi-close"/></v-chip>
+                        <v-chip>{{ newItem.section.name ? newItem.section.name : 'no name' }}<v-icon icon="mdi-close"/></v-chip>
                         <v-icon icon="mdi-account-edit"/>
                     </v-card-title>
                 </v-card-item>
@@ -232,9 +232,9 @@ export default {
                 section: {  
                     name: this.newItem.section.name ? this.newItem.section.name : this.item.section.name,
                     _id: this.newItem.section._id ? this.newItem.section._id : this.item.section._id,
-                    choices: this.newItem.section.choices ? this.newItem.section.choices : this.item.section.choices,
-                    suggested: this.newItem.section.suggested ? this.newItem.section.suggested : this.item.section.suggested,
-                    ingr: this.newItem.section.ingr ? this.newItem.section.ingr : this.item.section.ingr,
+                    choices: this.newItem.section.choices ? this.newItem.section.choices : 0,
+                    suggested: this.newItem.section.suggested ? this.newItem.section.suggested : [],
+                    ingr: this.newItem.section.ingr ? this.newItem.section.ingr : [],
                 },
                 options: this.newItem.options.length ? this.newItem.options : this.item.options,
                 description: this.newItem.description ? this.newItem.description : this.item.description

@@ -4,7 +4,7 @@
         <v-card-item v-if="item.price">{{ formatter.format(item.price/100) }}</v-card-item>
         <v-card-item v-if="item.description">
         </v-card-item>
-        <v-card-item>
+        <v-card-item v-if="item.section">
             Menu Section: <v-chip>{{ item.section.name ? item.section.name : "no name"}}</v-chip>
         </v-card-item>
         <v-card-item v-if="item.options.length">
