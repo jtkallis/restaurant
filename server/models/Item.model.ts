@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-
 const itemSchema = new Schema({
     name: {
       type: String,
@@ -11,8 +10,9 @@ const itemSchema = new Schema({
       default: 0
     },
     section: {
-        type: Object,
-        required: false
+        type: Schema.Types.Mixed,
+        required: false,
+        default:{}
     },
     options: [ 
       {

@@ -14,19 +14,16 @@
                         label="new number"
                     />
                 </v-card-item>
-                <v-card-item>
-                    Original Default Items: 
+                <v-card-item v-if="section.suggested.length">
+                    Original Suggested Items: 
                     <v-btn @click="addSuggestedFlagFunc"><v-icon icon="mdi-account-edit"/></v-btn>
-                    <template v-if="section.suggested.length">
                         <v-chip
                             v-for="(suggested,i) in section.suggested"
                             :key="i"
-                        >{{ suggested.name }}</v-chip>
-                        
-                    </template>
+                        >{{ suggested.name }}</v-chip>                    
                 </v-card-item>
                 <v-card-item v-if="addSuggestedFlag">
-                    New Default Items:
+                    New Suggested Items:
                     <v-chip
                         v-for="(sug,i) in newSection.suggested"
                         :key="i"

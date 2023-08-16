@@ -16,7 +16,7 @@ const menuSchema = new Schema(
       },
       days: [
         {
-          type: Object,
+          type: Schema.Types.Mixed,
           required: [true, 'days field is required'],
         }
       ],

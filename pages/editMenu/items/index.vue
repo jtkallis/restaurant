@@ -13,7 +13,7 @@
                         sm="4"
                         v-for="(item,i) in items" :key="i"
                     >
-                        <displayItem :item="addSection(item,sections)"/>
+                        <displayItem :item="item"/>
                     </v-col>
                 </v-row>
             </v-card>
@@ -34,6 +34,7 @@ export default{
     },
     methods:{
         addSection(item,sections){
+            console.log(item)
             const itemHolder={...item};
             const section = sections.find(section=>section._id===item.section_id);
             const sectionHolder = {...section}

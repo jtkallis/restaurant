@@ -2,51 +2,62 @@
 import SelectionModal from './SelectionModal.vue'
 </script>
 <template>
-  <v-card>
-    <v-card-title v-if="selection.name">
-      {{selection.name}} -- ${{selection.price/100}}
-    </v-card-title>
-    <v-card-subtitle v-if="selection.description">{{selection.description}}</v-card-subtitle>
-    <v-card-item v-if="selection.options">
-      <v-card
-        v-for="(option,i) in selection.options"
-        :key="i"
-      >
-        <v-card-title>{{option.name}}</v-card-title>
-        <v-select
-          v-model="option.choices"
-          :items="option.ingr"
-          :label="getLabel(option)"
-          :menu="openFlag"
-          ref="select"
-          multiple
-          :menu-props="{
-            closeOnContentClick: true,
-          }"
-          class="overflow-auto"
+  <v-card id="divv">
+    <v-toolbar id="toolbar">
+        <template v-slot:append>
+            <v-app-bar-nav-icon icon="mdi-close" @click="$emit('getSelection')"></v-app-bar-nav-icon>
+        </template>
+    </v-toolbar>
+    <v-card id="modal">
+      <v-card-title v-if="selection.name" id="title">
+        {{selection.name}} -- ${{selection.price/100}}
+      </v-card-title>
+      <v-card-subtitle v-if="selection.description">{{selection.description}}</v-card-subtitle>
+      <v-card-item v-if="selection.options" id="card-item">
+        <v-card
+          v-for="(option,i) in selection.options"
+          :key="i"
         >
-          <template #selection="{ item, index }">
-            <v-chip @click="$refs.select[i].blur()">
-              {{ item.value.name }}
-              <v-icon
-                icon="mdi-close"
-                @click="option.choices.splice(index,1)"
-              />
-            </v-chip>
-          </template>
-          <template #item="{item}">
-            <v-list-item @click="addIngr(item.value,i)">{{ item.value.name }}</v-list-item>
-          </template>
-        </v-select>
-        <v-dialog v-model="modalFlag">
-          <SelectionModal :selection="theItem" :index="i" @getSelection="fromModal"/>
-        </v-dialog>
-      </v-card>
-    </v-card-item>
-    <v-card-actions>
-      <v-btn @click="submitOrder(selection)">Add to order</v-btn>
-      <v-btn @click="cancelSelection(selection)">Cancel Selection</v-btn>
-    </v-card-actions>
+          <v-card-title>{{option.name}}</v-card-title>
+          <v-select
+            v-model="option.choices"
+            :items="option.ingr"
+            :label="getLabel(option)"
+            :menu="openFlag"
+            ref="select"
+            multiple
+            :menu-props="{
+              closeOnContentClick: true,
+            }"
+            class="overflow-auto"
+          >
+            <template #selection="{ item, index }">
+              <v-chip @click="$refs.select[i].blur()">
+                {{ item.value.name }}
+                <v-icon
+                  icon="mdi-close"
+                  @click="option.choices.splice(index,1)"
+                />
+              </v-chip>
+            </template>
+            <template #item="{item}">
+              <v-list-item @click="addIngr(item.value,i)">{{ item.value.name }}</v-list-item>
+            </template>
+          </v-select>
+          <v-dialog
+            v-model="modalFlag"
+            fullscreen
+            persistent
+          >
+            <SelectionModal :selection="theItem" :index="i" @getSelection="fromModal"/>
+          </v-dialog>
+        </v-card>
+      </v-card-item>
+      <v-card-actions id="actions">
+        <v-btn @click="submitOrder(selection)">Add to order</v-btn>
+        <v-btn @click="cancelSelection(selection)">Cancel Selection</v-btn>
+      </v-card-actions>
+    </v-card>
   </v-card>
 </template>
 <script>
@@ -99,6 +110,7 @@ export default {
 
     },
     addIngr(ingr, i){
+      console.log('i ', ingr)
       let ingrHolder={
         name: ingr.name,
         price: ingr.price,
@@ -172,8 +184,10 @@ export default {
     fromModal(sel){ 
       //if item has options add the
       //cost of choices to price
-      const selHolder = {...sel}
-      this.selection.options[selHolder.index].choices.push(selHolder);
+      if(sel){
+        const selHolder = {...sel}
+        this.selection.options[selHolder.index].choices.push(selHolder);
+      }
       this.modalFlag=false;
     },
     cancelSelection(sel){

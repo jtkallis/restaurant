@@ -30,11 +30,15 @@ export default {
     methods: {
         sectionItems(section){
             const theItems = []
+            console.log(this.items)
             this.items.forEach(item =>{
-                if(section._id === item.section._id){
-                    item.section = section
-                    theItems.push(item)
+                if(item.section){
+                    if(section._id === item.section._id){
+                        item.section = section
+                        theItems.push(item)
+                    }
                 }
+                
             })
             return theItems
         },

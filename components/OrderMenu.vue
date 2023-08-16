@@ -26,12 +26,9 @@
             fullscreen
             persistent
         >
-            <v-card>
-                <v-toolbar>
-                    <template v-slot:append>
-                        <v-app-bar-nav-icon icon="mdi-close" @click="modalFlag=false"></v-app-bar-nav-icon>
-                    </template>
-                </v-toolbar>
+            <v-card
+                id="card"
+            >
                 <SelectionModal
                     :selection="selection"
                     :sections="sections"
@@ -75,21 +72,16 @@
             v-model="modalFlag"
             fullscreen
             persistent
+            id="dialog"
         >
-            <v-card>
-                <v-toolbar>
-                    <template v-slot:append>
-                        <v-app-bar-nav-icon icon="mdi-close" @click="modalFlag=false"></v-app-bar-nav-icon>
-                    </template>
-                </v-toolbar>
-                <SelectionModal
-                    :selection="selection"
-                    :sections="sections"
-                    @getSelection="fromModal"
-                /> 
-            </v-card>
+            <SelectionModal
+                :selection="selection"
+                :sections="sections"
+                @getSelection="fromModal"
+                id="selection-modal"
+            /> 
         </v-dialog>
-        <v-card id="card">
+        <v-card>
           <v-tabs v-model="tab" align-tabs="center" id="bar">
             <v-tab
                 v-for="menu in menus"
@@ -129,9 +121,8 @@
                         :title="section.name"
                     >
                         <v-expansion-panel-text id="panel">
-                            {{ theItems }}
                             <OrderItem
-                                :theItems="items.filter(item=> item.section._id === section._id)"
+                                :theItems="sectionItems(section._id)"
                                 @passToMenu="fromItem"
                             />  
                         </v-expansion-panel-text>
@@ -171,6 +162,17 @@ export default {
         }
     },
     methods:{
+        sectionItems(id){
+            let secItems = [];
+            this.items.filter(item=>{
+                if(item.section){
+                    if(item.section._id===id){
+                        secItems.push(item)
+                    }
+                }
+            })
+            return secItems;
+        },
         makeTwo(number){
             let formattedNumber = number.toLocaleString('en-US', {
                 minimumIntegerDigits: 2,
@@ -220,7 +222,6 @@ export default {
                 }
             })
             if(theMenu===undefined){
-                console.log('x')
                 theMenu={name: "the restaurant is currently not taking orders", id: 0}
             }
             return theMenu;
@@ -238,6 +239,7 @@ export default {
         fromItem(selection){
             //initialize object to disconnect
             //from original item
+            console.log('fis', selection)
             let selectionHolder={
                 name: selection.name,
                 price: selection.price,
@@ -295,7 +297,7 @@ export default {
             if(sel != null){               
                 this.selections.push(sel)
             }
-            this.modalFlag=false
+            this.modalFlag=false;
             if(this.selections.length > 0){
                 this.checkoutFlag = true;
             }

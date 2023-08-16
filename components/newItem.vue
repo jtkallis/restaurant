@@ -62,7 +62,6 @@ export default{
     data(){
         return{
             newItem:{
-                _id: '',
                 name: '',
                 price: 0,
                 section_id: '',
@@ -89,18 +88,36 @@ export default{
             this.newItem.options.push(sectionHolder)
         },
         async submitItem(){
+            console.log('submit item ', this.newItem)
             const holder = {
                 name: this.newItem.name ? this.newItem.name : '',
                 price: this.newItem.price ? this.newItem.price : 0,
                 options: this.newItem.options.length ? this.newItem.options : [],
-                section_id: this.newItem.section_id ? this.newItem.section_id : '',
+                section: {
+                    name: this.newItem.section.name,
+                    _id: this.newItem.section_id
+                },
                 description: this.newItem.description ? this.newItem.description : '',
             }
-            holder.price = Number(holder.price)
-            await useFetch('/api/items', {
+            console.log(holder)
+            //holder.price = Number(holder.price)
+            const {data, err } = await useFetch('/api/items', {
                 method: 'POST',
                 body: JSON.stringify(holder)
-            })     
+            })
+
+            console.log(data.value.res)
+            const section = this.sections.find(sec => sec._id === data.value.res.section._id)
+            if(section){
+                console.log('section')
+                console.log(section);
+                section.ingr.push(holder)
+                await useFetch('/api/sections/'+section._id, {
+                    method: 'PUT',
+                    body: JSON.stringify(section)
+                })
+                
+            }
             this.$router.push({path:'/editMenu/',})
         },
     }

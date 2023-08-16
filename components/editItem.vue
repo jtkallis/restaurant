@@ -21,7 +21,8 @@
                 </v-card-item>
                 <v-card-item>
                     <v-card-title @click="sectionFlagFunc()">
-                        {{ newItem.section.name ? newItem.section.name : item.section.name }}
+                        Section: 
+                        <v-chip>{{ newItem.section.name ? newItem.section.name : item.section.name }}<v-icon icon="mdi-close"/></v-chip>
                         <v-icon icon="mdi-account-edit"/>
                     </v-card-title>
                 </v-card-item>
@@ -35,8 +36,8 @@
                                 :key="i"
                                 @click="newItem.options.splice(i,1)"
                             >
-                                {{ option.name }}
-                                <v-icon icon="mdi-close"/>
+                               <v-chip> {{ option.name }}<v-icon icon="mdi-close"/></v-chip>
+                                
                             </v-card-title>
                         </template>
                         <template v-else>
@@ -45,7 +46,8 @@
                                 v-for="(option,i) in item.options"
                                 :key="i"
                                 
-                            >{{ option.name }}
+                            >
+                            <v-chip>{{ option.name }}<v-icon icon="mdi-close"/></v-chip>
                             
                         </v-card-title>
                         </template>
@@ -121,6 +123,10 @@ const props = defineProps({
     theItems: {
         type: Array,
         required: true
+    },
+    menus: {
+        type: Array,
+        required: true
     }
 })
 
@@ -149,29 +155,43 @@ export default {
     },
     methods: {
         getItem(){
-            const section = this.sections.find(section=>section._id===this.theItem.section._id);
-            const holder = {
-                name: section.name ? section.name : '',
-                _id: section._id ? section._id : '',
-                choice: section.choice ? section.choice : 0,
-                suggested: section.suggested ? section.suggested : [],
-                ingr: section.ingr ? section.ingr : []
+            console.log('rt', this.theItem)
+            console.log('st', this.item)
+            console.log(this.theItems)
+            if(this.theItem.section){
+                const section = this.sections.find(section=> section._id===this.theItem.section._id);
+                if(section){
+                    const holder = {
+                        name: section.name ? section.name : '',
+                        _id: section._id ? section._id : '',
+                        choice: section.choice ? section.choice : 0,
+                        suggested: section.suggested ? section.suggested : [],
+                        ingr: section.ingr ? section.ingr : []
+                    }
+                    this.theItem.section = holder;
+                    }
+                
             }
-            this.theItem.section = holder;
             return this.theItem;
         },
         getItems(){
             this.theItems.forEach((item)=>{
-                const section = this.sections.find(section=>section._id===this.theItem.section._id);
-                const holder = {
-                    name: section.name,
-                    _id: section._id,
-                    choice: section.choice ? section.choice : 0,
-                    suggested: section.suggested ? section.suggested : [],
-                    ingr: section.ingr ? section.ingr : []
+                const section = this.sections.find(section=>section._id===this.theItem.section_id);
+                if ( section ){
+                    const holder = {
+                        name: section.name,
+                        _id: section._id,
+                        choice: section.choice ? section.choice : 0,
+                        suggested: section.suggested ? section.suggested : [],
+                        ingr: section.ingr ? section.ingr : []
+                    }
+                    item.section = holder;
                 }
-                item.section = holder;
+                else {
+                    console.log("k ",section)
+                }
             })
+            console.log('jk', this.theItems)
             return this.theItems;
         },
         sectionFlagFunc(){
@@ -183,6 +203,22 @@ export default {
             this.sectionFlag=false;
         },
         async deleteItem(){
+            if(this.theItem.section._id){
+                const section = this.sections.find(sec=> sec._id === this.theItem.section._id);
+                console.log('del', section);
+                if(section.ingr){
+                    const index = section.ingr.findIndex(ingr => ingr._id === this.theItem._id);
+                    if(index !== -1){
+                        section.ingr.splice(index, 1);
+                    }
+                    console.log('x', section)
+                }
+                await useFetch('/api/sections/'+section._id, {
+                    method: 'PUT',
+                    body: JSON.stringify(section)
+                });
+            }
+            
             await useFetch('/api/items/'+this.theItem._id, {
                 method: 'DELETE'
             });
@@ -193,15 +229,24 @@ export default {
                 _id: this.item._id,
                 name: this.newItem.name ? this.newItem.name : this.item.name,
                 price: this.newItem.price ? this.newItem.price : this.item.price,
-                section: this.newItem.section ? this.newItem.section : this.item.section,
+                section: {  
+                    name: this.newItem.section.name ? this.newItem.section.name : this.item.section.name,
+                    _id: this.newItem.section._id ? this.newItem.section._id : this.item.section._id,
+                    choices: this.newItem.section.choices ? this.newItem.section.choices : this.item.section.choices,
+                    suggested: this.newItem.section.suggested ? this.newItem.section.suggested : this.item.section.suggested,
+                    ingr: this.newItem.section.ingr ? this.newItem.section.ingr : this.item.section.ingr,
+                },
                 options: this.newItem.options.length ? this.newItem.options : this.item.options,
                 description: this.newItem.description ? this.newItem.description : this.item.description
             }
+            //edit item
             await useFetch('/api/items/'+this.item._id, {
                 method: 'PUT',
                 body: JSON.stringify(holder)
             });
+            //update item list in section
             this.sections.forEach(section=>{
+                console.log('1', section)
                 if(section.ingr.length){
                     let ingrIndex = section.ingr.findIndex((item)=>item._id===holder._id);
                     if(!(ingrIndex<0)){
@@ -213,14 +258,17 @@ export default {
                                 section.suggested[sugIndex] = holder;
                             }
                         }
-                        this.updateSectionsWItem(section)
+                        this.updateSectionsWithItem(section)
+                        this.updateItemWithSection(section)
                     } 
                 }
                 
             })
+            console.log(this.sections)
+            
             this.$router.push({path:'/editMenu/items'})
         },
-        async updateSectionsWItem(section){
+        async updateSectionsWithItem(section){
             const holder={...section}
             await useFetch('/api/sections/'+section._id, {
                 method: 'PUT',
@@ -244,6 +292,22 @@ export default {
                 body: JSON.stringify(item)
             });
             console.log(res)
+        },
+        async updateItemWithSection(section){
+            this.items.forEach(item=>{
+                if(item.section._id === section._id){
+                    console.log('update item with section')
+                    console.log(section)
+                    console.log(item.section)
+                    item.section={
+                        _id: section._id,
+                        name: section.name,
+                        choice: section.choice ? section.choice : 0,
+                        ingr: section.ingr ? section.ingr : [],
+                        suggested: section.suggested ? section.suggested : [],
+                    }
+                }
+            })
         },
         optionsFlagFunc(){
             this.optionsFlag=!this.optionsFlag;

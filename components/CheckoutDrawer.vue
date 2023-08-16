@@ -1,62 +1,51 @@
 <template>
-  <v-row>
-    <v-col cols="auto">
-      <v-list v-if="selected.length">
-        <v-list-item :prepend-icon="mdi-cart">
-          <v-btn @click="checkoutFormFlag=true">check out</v-btn>
-        </v-list-item>
-        <v-divider></v-divider>
-        <v-list-item
-          v-for="(sel,i) in selected"
-          :key="i"
-          :prepend-icon="mdiNum(i)"
-          :title="titleString(sel)"
-          class="overflow-auto"
-        >
-          <template v-slot:append>
-            <v-btn
-              color="grey-lighten-1"
-              icon="mdi-close"
-              variant="text"
-              @click="selected.splice(i,1)"
-            ></v-btn>
-          </template>
-        <v-list-item-subtitle v-for="(option) in sel.options" :key="option._id">{{subtitleString(option)}}</v-list-item-subtitle>
-        </v-list-item>
-        <v-divider></v-divider>
-        <br/>
-      </v-list>
-    </v-col>
-    <v-card>
+  <v-container>
+    <v-list v-if="selected.length">
+      <v-divider></v-divider>
+      <v-list-item :prepend-icon="mdi-cart">
+        <v-btn @click="checkoutFormFlag= !checkoutFormFlag">check out</v-btn>
+      </v-list-item>
+      <v-divider></v-divider>
+      <v-list-item
+        v-for="(sel,i) in selected"
+        :key="i"
+        :prepend-icon="mdiNum(i)"
+        :title="titleString(sel)"
+        class="overflow-auto"
+      >
+        <template v-slot:append>
+          <v-btn
+            color="grey-lighten-1"
+            icon="mdi-close"
+            variant="text"
+            @click="selected.splice(i,1)"
+          ></v-btn>
+        </template>
+      <v-list-item-subtitle v-for="(option) in sel.options" :key="option._id">{{subtitleString(option)}}</v-list-item-subtitle>
+      </v-list-item>
+      <v-divider></v-divider>
+      <br/>
+    </v-list>
+    <v-card v-if="checkoutFormFlag">
       <v-form>
-        <v-row>
-          <v-card-item>
-            <v-col cols="auto">
             
-              <v-text-field
-                v-model="order.name"
-                label="name"
-              />
-              <v-text-field
-                v-model="order.phone"
-                label="phone"
-              />
-          
-            </v-col>
-            <v-col cols="auto">
-        
-              <v-text-field
-                v-model="order.notes1"
-                label="line 1"
-              />
-              <v-text-field
-                v-model="order.notes2"
-                label="line 2"
-              />
-           
-          </v-col>
-        </v-card-item>
-        </v-row>
+        <v-text-field
+          v-model="order.name"
+          label="name"
+        />
+        <v-text-field
+          v-model="order.phone"
+          label="phone"
+        />
+        <v-text-field
+          v-model="order.notes1"
+          label="line 1"
+        />
+        <v-text-field
+          v-model="order.notes2"
+          label="line 2"
+        />
+
         <v-card-actions>
           <v-btn
             color="success"
@@ -69,7 +58,7 @@
         </v-card-actions>
       </v-form>
     </v-card>
-  </v-row>
+  </v-container>
 </template>
 <script>
 export default {

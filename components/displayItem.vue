@@ -3,10 +3,9 @@
         <v-card-title v-if="item.name">{{ item.name }}</v-card-title>
         <v-card-item v-if="item.price">{{ formatter.format(item.price/100) }}</v-card-item>
         <v-card-item v-if="item.description">
-            {{ item.description }}
         </v-card-item>
-        <v-card-item v-if="item.section.name">
-            Menu Section: <v-chip>{{ item.section.name }}</v-chip>
+        <v-card-item>
+            Menu Section: <v-chip>{{ item.section.name ? item.section.name : "no name"}}</v-chip>
         </v-card-item>
         <v-card-item v-if="item.options.length">
             Options:
