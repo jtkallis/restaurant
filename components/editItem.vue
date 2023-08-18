@@ -217,11 +217,18 @@ export default {
                     method: 'PUT',
                     body: JSON.stringify(section)
                 });
+                this.theItems.forEach(itm=>{
+                    const index = itm.options.findIndex(op => op._id === section._id);
+                    itm.options[index]={...section}
+                    this.updateItemOption(itm)
+
+                })
             }
             
             await useFetch('/api/items/'+this.theItem._id, {
                 method: 'DELETE'
             });
+            
             this.$router.push({path: '/editmenu/items'})
         },
         async submitChanges(){
@@ -240,10 +247,12 @@ export default {
                 description: this.newItem.description ? this.newItem.description : this.item.description
             }
             //edit item
-            await useFetch('/api/items/'+this.item._id, {
+            const {res} = await useFetch('/api/items/'+this.item._id, {
                 method: 'PUT',
                 body: JSON.stringify(holder)
             });
+            console.log(res)
+            console.log(this.sections)
             //update item list in section
             this.sections.forEach(section=>{
                 console.log('1', section)
@@ -251,6 +260,7 @@ export default {
                     let ingrIndex = section.ingr.findIndex((item)=>item._id===holder._id);
                     if(!(ingrIndex<0)){
                         section.ingr[ingrIndex] = holder;
+                        console.log('ingr->item',section.ingr[ingrIndex])
                         console.log('sec',section);
                         if(section.suggested.length){
                             let sugIndex = section.suggested.findIndex((item)=>item._id===holder._id)
@@ -259,7 +269,7 @@ export default {
                             }
                         }
                         this.updateSectionsWithItem(section)
-                        this.updateItemWithSection(section)
+                        this.updateItemsWithSection(section)
                     } 
                 }
                 
@@ -270,6 +280,7 @@ export default {
         },
         async updateSectionsWithItem(section){
             const holder={...section}
+            console.log(holder)
             await useFetch('/api/sections/'+section._id, {
                 method: 'PUT',
                 body: JSON.stringify(holder)
@@ -293,12 +304,12 @@ export default {
             });
             console.log(res)
         },
-        async updateItemWithSection(section){
+        async updateItemsWithSection(section){
             this.items.forEach(item=>{
                 if(item.section._id === section._id){
                     console.log('update item with section')
                     console.log(section)
-                    console.log(item.section)
+                    console.log(item.name)
                     item.section={
                         _id: section._id,
                         name: section.name,
