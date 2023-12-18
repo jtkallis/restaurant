@@ -1,14 +1,13 @@
 <template>
     <v-card>
         <v-card-title>{{ menu.name }}</v-card-title>
-        <v-card-item>{{ menu.start_time }}</v-card-item>
-        <v-card-item>{{ menu.end_time }}</v-card-item>
         <v-card-item>
             Days: <br/>
             <v-chip
                 v-for="(day,i) in menu.days"
                 :key="i"
-            >{{ day.name }}</v-chip>
+            >{{ day.day }} <br/>{{ day.startHour + ":" + day.startMin10 + day.startMin01 + day.start_pm+
+        "-"+day.endHour+":"+day.endMin10+day.endMin01+day.end_pm}}</v-chip>
         </v-card-item>
         <v-card-item>
             Sections: <br/>
@@ -17,9 +16,6 @@
                 :key="i"
             >{{ section.name }}</v-chip>
         </v-card-item>
-        <v-card-actions v-if="flag">
-            <v-btn @click="editMenu()">edit menu</v-btn>
-        </v-card-actions>
     </v-card>
 </template>
 <script setup>

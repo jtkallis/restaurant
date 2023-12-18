@@ -1,5 +1,6 @@
 <script setup>
 const { data: menus } = await useFetch("/api/menus");
+const { data: sections } = await useFetch("/api/sections");
 </script>
 <template>
     <v-card>
@@ -23,8 +24,11 @@ export default {
             showFlag: false,
             newMenu: {
                 name: '',
-                hours: '',
-                days: [],
+                days: [{
+                    day: '',
+                    start_time: 0,
+                    end_time: 0,
+                }],
                 sections: []
             },
             days : ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],

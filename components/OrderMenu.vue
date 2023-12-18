@@ -22,7 +22,7 @@
     </v-navigation-drawer> 
     <div v-if="thisMenu">
         <v-dialog
-            v-model="modalFlag2"
+            v-model="modalFlag"
             fullscreen
             persistent
         >
@@ -61,77 +61,7 @@
         <v-card>
             <v-card-title>The Restaurant is closed</v-card-title>
         </v-card>
-    </div>
-    <br/>
-    <br/>
-    <br/>
-    <v-container id="container">
-        <v-card-title>This is a sample of all of the menus with order capability</v-card-title>
-        <v-card-title>Depending on the day and time, any of them could show above</v-card-title>
-        <v-dialog
-            v-model="modalFlag"
-            fullscreen
-            persistent
-            id="dialog"
-        >
-            <SelectionModal
-                :selection="selection"
-                :sections="sections"
-                @getSelection="fromModal"
-                id="selection-modal"
-            /> 
-        </v-dialog>
-        <v-card>
-          <v-tabs v-model="tab" align-tabs="center" id="bar">
-            <v-tab
-                v-for="menu in menus"
-                :key=menu._id
-                slider-color="green-darken-4"
-                color="green-darken-4"
-            >
-                {{menu.name}}
-            </v-tab>
-        </v-tabs>
-        <v-window v-model="tab">
-            <v-window-item
-                v-for="menu in menus"
-                :key="menu._id"
-                id="tab"
-            >
-            <v-card-title>Available:</v-card-title>
-            <v-card-subtitle id="subtitle">
-                <template v-for="(day,i) in menu.days" :key="i">
-                    {{ (menu.days.length-(i+1))>0 ? day.name + ", " : day.name }}
-                </template>
-                <br/>
-                {{makeTwo((menu.start_time/100) % 12 ) + ":" + makeTwo(menu.start_time % 100)}}
-                {{ (((menu.start_time/100)/12) < 1) ?  " AM " : " PM " }}
-                {{ "- "+  makeTwo((menu.end_time/100) % 12 ) + ":" + makeTwo(menu.end_time % 100)}}
-                {{ (((menu.end_time/100)/12) < 1) ?  " AM " : " PM " }}
-            </v-card-subtitle>
-                <v-expansion-panels
-                    id="top"
-                    flat
-                    tile
-                >
-                    <v-expansion-panel
-                        v-for="(section,i) in menu.sections"
-                        id="ex-panel"
-                        :key="i"
-                        :title="section.name"
-                    >
-                        <v-expansion-panel-text id="panel">
-                            <OrderItem
-                                :theItems="sectionItems(section._id)"
-                                @passToMenu="fromItem"
-                            />  
-                        </v-expansion-panel-text>
-                    </v-expansion-panel>
-                </v-expansion-panels>
-            </v-window-item>
-        </v-window>
-      </v-card>
-    </v-container>
+    </div>    
   </div>
 </template>
 <script>
@@ -184,47 +114,27 @@ export default {
             const date = new Date()
             const today = date.getDay()
             const nowHours = date.getHours()
-            const nowMins = date.getMinutes()
-            let theMenu;
-
-            menus.forEach( (menu) => {
-                //if today is in the days array
-                let flag =  menu.days.some(day=>day.index===today);
-                if( flag ){
-                    const startHours = Math.floor(menu.start_time/100);
-                    const startMins = menu.start_time % 100;
-                    const endHours = Math.floor(menu.end_time/100);
-                    const endMins = menu.end_time % 100;
-                    //find out if the menu is open
-                    if( (nowHours >= startHours) && (nowHours <= endHours) ){
-
-                        if(startMins){
-                            if(nowMins>startMins){
-                                if(endMins){
-                                    if(nowMins<endMins){
-                                        theMenu ={...menu};
-                                    }
-                                }else{
-                                    theMenu ={...menu};
-                                }
-                            }
-                        }else{
-                            if(endMins){
-                                if(nowMins<endMins){
-                                    theMenu ={...menu};
-                                }
-                            }
-                            else{
-                                theMenu ={...menu};
-                            }
-                        }
-                    }
+            //const nowMins = date.getMinutes()
+            for(let i=0; i < menus.length; i++){
+               let day=menus[i].days.find((day)=>{return day.day_id===today})
+               console.log(day)
+               if(day.start_pm==="pm"){
+                    if(day.startHour < 12){day.startHour += 12;}
                 }
-            })
-            if(theMenu===undefined){
-                theMenu={name: "the restaurant is currently not taking orders", id: 0}
+                if(day.end_pm ==="pm"){
+                    if(day.endHour < 12){ day.endHour +=12;}
+                }
+                console.log(day.startHour)
+                console.log(day.endHour)
+                if(nowHours <= day.endHour && nowHours >= day.startHour){
+                    console.log("within Hours")
+                    console.log(day.startMin10+ day.startMin01)
+                    console.log(menus[i])
+                    return menus[i];
+                }
+                else{console.log('outside hours')}
             }
-            return theMenu;
+            return {name: "menu not available"}
         },
         fromDrawer(){
             console.log('')//avoids warning

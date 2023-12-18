@@ -2,32 +2,6 @@
 const email = ref('')
 const password = ref('')
 const isSignUp = ref(false)
-const client = useSupabaseClient()
-const signUp = async ()=>{
-  const {user,err}=await client.auth.signUp({
-    email: email.value,
-    password: password.value
-  })
-  console.log(user,"register",client)
-  console.log(err)
-}
-const login = async ()=>{
-  const { user, err } = await client.auth.signInWithPassword({
-    email: email.value,
-    password: password.value
-  })
-  console.log(user, "logged in")
-  console.log(err)
-}
-const user = useSupabaseUser()
-onMounted(()=>{
-  watchEffect(()=>{
-    console.log('we',user)
-    if(user.value){
-      navigateTo('/editMenu')
-    }
-  })
-})
 </script>
 <template>
     <v-container>

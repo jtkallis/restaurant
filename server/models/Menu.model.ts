@@ -6,14 +6,6 @@ const menuSchema = new Schema(
         type: String,
         required: [true, 'name field is required'],
       },
-      start_time: {
-        type: Number,
-        required: [true, 'start time field is required'],
-      },
-      end_time: {
-        type: Number,
-        required: [true, 'start time field is required'],
-      },
       days: [
         {
           type: Schema.Types.Mixed,

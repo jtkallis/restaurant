@@ -2,7 +2,7 @@
     <v-card>        
         <v-btn @click="newFlag=!newFlag">Add new Item</v-btn>
         <template v-if="newFlag">
-            <newItem :sections="sections"/>
+            <newItem :sections="sections" :items="items"/>
         </template>
         <v-btn @click="showFlag = !showFlag">View All Items</v-btn>
         <template v-if="showFlag">

@@ -22,7 +22,7 @@
                 <v-card-item>
                     <v-card-title @click="sectionFlagFunc()">
                         Section: 
-                        <v-chip>{{ newItem.section.name ? newItem.section.name : 'no name' }}<v-icon icon="mdi-close"/></v-chip>
+                        <v-chip>{{ item.section.name }}<v-icon icon="mdi-close"/></v-chip>
                         <v-icon icon="mdi-account-edit"/>
                     </v-card-title>
                 </v-card-item>
