@@ -31,7 +31,7 @@ const props = defineProps({
 });
 </script>
 <script>
-export default{
+export default {
     methods:{
         editMenu(){
             this.$router.push({path: '/editmenu/menus/' + this.menu._id,})

@@ -1,3 +1,7 @@
+<script setup>
+const { data: sections } = await useFetch("/api/sections");
+const { data: items } = await useFetch("/api/items");
+</script>
 <template>
     <v-card>        
         <v-btn @click="newFlag=!newFlag">Add new Item</v-btn>
@@ -11,7 +15,8 @@
                     <v-col
                         cols="12"
                         sm="4"
-                        v-for="(item,i) in items" :key="i"
+                        v-for="(item,i) in items"
+                        :key="i"
                     >
                         <displayItem :item="item"/>
                     </v-col>
@@ -20,12 +25,8 @@
         </template>
     </v-card>
 </template>
-<script setup>
-const { data: sections } = await useFetch("/api/sections");
-const { data: items } = await useFetch("/api/items");
-</script>
 <script>
-export default{
+export default {
     data(){
         return{
             showFlag: false,

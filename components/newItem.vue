@@ -109,34 +109,18 @@ export default{
                 method: 'POST',
                 body: JSON.stringify(holder)
             })
-            console.log('item3',data.value.res)
+            this.items.forEach(item=>{})
+            console.log(data.value.res)
             const section = this.sections.find(sec => sec._id === data.value.res.section._id)
             if(section){
                 console.log('section')
                 console.log(section);
                 section.ingr.push(holder)
-                const {data, err } = await useFetch('/api/sections/'+section._id, {
+                await useFetch('/api/sections/'+section._id, {
                     method: 'PUT',
                     body: JSON.stringify(section)
                 })
-            }
-            console.log('section3',data.value.res)
-            console.log(this.items.length)
-            for(let i=0;i< this.items.length;i++){
-                if(this.items[i].options.length){
-                    for(let j=0;this.items[i].options.length;j++){
-                        if(this.items[i].options[j]._id === section._id){
-                            console.log('ffff',this.items[i])
-                            this.items[i].options[j].ingr.push(holder)
-                            console.log('updated item',this.items[i])
-                            const {data, err } = await useFetch('/api/items/'+this.items[i]._id, {
-                                method: 'PUT',
-                                body: JSON.stringify(this.items[i])
-                            })
-                            console.log(data.value.res)
-                        }
-                    }
-                }
+                
             }
             this.$router.push({path:'/editMenu/',})
         },
