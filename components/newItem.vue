@@ -88,8 +88,12 @@ export default{
             this.newItem.section=sectionHolder;
         },
         addOption(section){
-            const sectionHolder={...section};
+            if(section){
+                console.log(section)
+                const sectionHolder={...section};
             this.newItem.options.push(sectionHolder)
+            }
+            
         },
         async submitItem(){
             console.log('submit item ', this.newItem)
@@ -109,9 +113,7 @@ export default{
                 method: 'POST',
                 body: JSON.stringify(holder)
             })
-            this.items.forEach(item=>{})
-            console.log(data.value.res)
-            const section = this.sections.find(sec => sec._id === data.value.res.section._id)
+            const section = this.sections.find(sec => sec._id === holder.section._id)
             if(section){
                 console.log('section')
                 console.log(section);
@@ -122,6 +124,20 @@ export default{
                 })
                 
             }
+            this.items.forEach((item)=>{
+                console.log(item)
+                if(item.options){
+                    if(item.options.length){
+                        item.options.forEach((option)=>{
+                            if(option._id===this.newItem.section._id){
+                                console.log('match', this.newItem, item)
+                                option.ingr.push(this.newItem)
+                            }
+                        })
+                    }
+                }
+            })
+
             this.$router.push({path:'/editMenu/',})
         },
     }

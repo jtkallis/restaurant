@@ -33,7 +33,7 @@ import SelectionModal from './SelectionModal.vue'
           >
             <template #selection="{ item, index }">
               <v-chip @click="$refs.select[i].blur()">
-                {{ item.value.name }}
+                {{ item.value.name}} {{  item.value.price ? "$"+item.value.price/100 : null }}
                 <v-icon
                   icon="mdi-close"
                   @click="option.choices.splice(index,1)"
@@ -89,6 +89,9 @@ export default {
   /**Note:
    * change v-select so @click will replace the current selection with the click
    */
+  computed: {
+    removeChoice(){}
+  },
   methods: {
     callFunction(index){
       this.$refs.select[index].blur()
@@ -151,33 +154,40 @@ export default {
               this.modalFlag=true;
           }
         }else{
-          this.selection.price+=ingrHolder.price;
           if(!this.selection.options[i].choices){
             this.selection.options[i].choices=[]
           }
           this.selection.options[i].choices.push(ingrHolder)
         }
       }else{
-        this.selection.price+=ingrHolder.price;
         this.selection.options[i].choices.push(ingrHolder)
       } 
       console.log('c',this.selection)    
     },
     submitOrder(selection){
-        const selectHolder={
-          ...selection,
-        }
-        if(selection.options){
-        if(selection.options.legnth){
+      //adds the price of any add-ons
+      if(selection.options){
+        if(selection.options.length){
           selection.options.forEach((option)=>{
             if(option.choices){
               if(option.choices.length){
-                option.choices=[];
+                option.choices.forEach((choice)=>{
+                  if(choice.price){
+                    console.log('price', choice.price)
+                    let price = Number(selection.price);
+                    price+=Number(choice.price);
+                    String(price)
+                    selection.price= price;
+                  }
+                })
               }
             }
           })
         }
       }
+        const selectHolder={
+          ...selection,
+        }
         this.$emit("getSelection",selectHolder)
         this.modalFlag=false; 
     },
@@ -185,12 +195,13 @@ export default {
       //if item has options add the
       //cost of choices to price
       if(sel){
+        console.log('fromModal',sel)
         const selHolder = {...sel}
         this.selection.options[selHolder.index].choices.push(selHolder);
       }
       this.modalFlag=false;
     },
-    cancelSelection(sel){
+    cancelSelection(){
       if(this.selection.options.length){
         this.selection.options.forEach((option)=>{
           option.choices=[];
